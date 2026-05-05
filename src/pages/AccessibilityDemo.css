@@ -1,0 +1,818 @@
+/* ─── AccessibilityDemo.css ─────────────────────────────────────────────── */
+
+:root {
+  --d-primary: #4F46E5;
+  --d-primary-dark: #4338CA;
+  --d-success: #059669;
+  --d-error: #DC2626;
+}
+
+/* ─── Root container ─────────────────────────────────────────────────────── */
+.empathy-root {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 52px);
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.empathy-svg-filters {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* ─── Mode panel ─────────────────────────────────────────────────────────── */
+.mode-panel {
+  background: #0F172A;
+  color: white;
+  width: 100%;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 200; /* always above tunnel overlay (z-index: 50) and all filters */
+}
+
+.mode-panel__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 1.25rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.mode-panel__label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94A3B8;
+  white-space: nowrap;
+}
+
+.mode-panel__select {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #1E293B;
+  color: white;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 0.5rem 2rem 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  min-width: 220px;
+  font-family: inherit;
+}
+
+.mode-panel__select:focus-visible {
+  outline: 2px solid #818CF8;
+  outline-offset: 2px;
+}
+
+.mode-panel__info {
+  background: #1E293B;
+  border-left: 3px solid #4F46E5;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-top: 0.75rem;
+  width: 100%;
+}
+
+.mode-panel__stat {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #818CF8;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.mode-panel__desc {
+  font-size: 0.9rem;
+  color: #CBD5E1;
+  margin: 0 0 0.5rem;
+  line-height: 1.6;
+}
+
+.mode-panel__tip {
+  font-size: 0.825rem;
+  color: #94A3B8;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ─── Demo wrapper ───────────────────────────────────────────────────────── */
+.demo-wrapper {
+  position: relative;
+  background: #ffffff;
+  flex: 1;
+}
+
+/* ─── Skip link ──────────────────────────────────────────────────────────── */
+.demo-skip {
+  position: fixed;
+  top: -100px;
+  left: 1rem;
+  background: #4F46E5;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 8px 8px;
+  z-index: 9999;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: top 0.15s;
+}
+
+.demo-skip:focus {
+  top: 0;
+}
+
+/* ─── Demo header ────────────────────────────────────────────────────────── */
+.d-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.d-header__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.d-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #111827;
+  text-decoration: none;
+}
+
+.d-logo svg {
+  width: 28px;
+  height: 28px;
+  color: #4F46E5;
+}
+
+.d-nav {
+  margin-left: auto;
+}
+
+.d-nav ul {
+  display: flex;
+  list-style: none;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.d-nav a {
+  color: #6B7280;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.d-nav a:hover {
+  color: #111827;
+}
+
+.d-nav a:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.d-header__cta {
+  background: #4F46E5;
+  color: white;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.d-header__cta:hover {
+  background: #4338CA;
+}
+
+.d-header__cta:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+.d-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  font-family: inherit;
+  line-height: 1;
+}
+
+.d-btn--primary {
+  background: #4F46E5;
+  color: white;
+}
+
+.d-btn--primary:hover {
+  background: #4338CA;
+}
+
+.d-btn--ghost {
+  background: transparent;
+  color: #4F46E5;
+  border-color: #4F46E5;
+}
+
+.d-btn--ghost:hover {
+  background: #EEF2FF;
+}
+
+.d-btn--full {
+  width: 100%;
+  justify-content: center;
+}
+
+.d-btn:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 3px;
+}
+
+/* ─── Hero section ───────────────────────────────────────────────────────── */
+.d-hero {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+}
+
+.d-hero__title {
+  font-size: clamp(2.5rem, 5vw, 3.75rem);
+  line-height: 1.1;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 1.5rem;
+  font-family: inherit;
+}
+
+.d-hero__sub {
+  font-size: 1.15rem;
+  color: #6B7280;
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+.d-hero__actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ─── Features section ───────────────────────────────────────────────────── */
+.d-features {
+  background: #F9FAFB;
+  padding: 4rem 2rem;
+}
+
+.d-section-label {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #6B7280;
+  margin-bottom: 2.5rem;
+}
+
+.d-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  max-width: 1080px;
+  margin: 0 auto;
+  list-style: none;
+  padding: 0;
+}
+
+@media (max-width: 768px) {
+  .d-feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.d-feature-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid #E5E7EB;
+}
+
+.d-feature-card__icon {
+  width: 44px;
+  height: 44px;
+  background: #EEF2FF;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.d-feature-card__icon svg {
+  width: 22px;
+  height: 22px;
+  color: #4F46E5;
+}
+
+.d-feature-card__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.d-feature-card p {
+  font-size: 0.925rem;
+  color: #6B7280;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── Sign-up section ────────────────────────────────────────────────────── */
+.d-signup {
+  padding: 4rem 2rem;
+}
+
+.d-signup__card {
+  max-width: 540px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E5E7EB;
+  padding: 2.5rem;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+.d-signup__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.d-signup__sub {
+  color: #6B7280;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.d-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 480px) {
+  .d-form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.d-field {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.25rem;
+}
+
+.d-field label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.4rem;
+}
+
+.d-field input[type="text"],
+.d-field input[type="email"],
+.d-field input[type="password"] {
+  border: 1.5px solid #D1D5DB;
+  border-radius: 8px;
+  padding: 0.6rem 0.75rem;
+  font-size: 1rem;
+  color: #111827;
+  background: white;
+  transition: border-color 0.15s;
+  font-family: inherit;
+  width: 100%;
+}
+
+.d-field input[type="text"]:focus,
+.d-field input[type="email"]:focus,
+.d-field input[type="password"]:focus {
+  outline: 2px solid #4F46E5;
+  outline-offset: 2px;
+  border-color: #4F46E5;
+}
+
+.d-field input[aria-invalid="true"] {
+  border-color: #DC2626;
+}
+
+.d-field__password-wrap {
+  display: flex;
+  position: relative;
+}
+
+.d-field__password-wrap input {
+  flex: 1;
+  border-radius: 8px 0 0 8px;
+}
+
+.d-field__pw-toggle {
+  border: 1.5px solid #D1D5DB;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  padding: 0 0.75rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6B7280;
+  background: white;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.d-field__pw-toggle:hover {
+  background: #F9FAFB;
+}
+
+.d-field__pw-toggle:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 2px;
+  border-radius: 0 8px 8px 0;
+}
+
+.d-field__hint {
+  font-size: 0.8rem;
+  color: #6B7280;
+  margin-top: 0.3rem;
+}
+
+.d-field__error {
+  font-size: 0.8rem;
+  color: #DC2626;
+  margin-top: 0.3rem;
+  font-weight: 500;
+}
+
+.d-field--checkbox {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.d-field--checkbox label {
+  font-size: 0.875rem;
+  color: #374151;
+  font-weight: 400;
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+.d-field--checkbox label a {
+  color: #4F46E5;
+  text-decoration: none;
+}
+
+.d-field--checkbox label a:hover {
+  text-decoration: underline;
+}
+
+.d-field--checkbox input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  flex-shrink: 0;
+  accent-color: #4F46E5;
+  cursor: pointer;
+}
+
+.d-field--checkbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid #4F46E5;
+  outline-offset: 2px;
+}
+
+.d-field--checkbox .d-field__error {
+  width: 100%;
+  grid-column: 1 / -1;
+}
+
+.d-signup__login {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-top: 1.25rem;
+  margin-bottom: 0;
+}
+
+.d-signup__login a {
+  color: #4F46E5;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.d-signup__login a:hover {
+  text-decoration: underline;
+}
+
+/* ─── Success state ──────────────────────────────────────────────────────── */
+.d-success {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.d-success:focus {
+  outline: none;
+}
+
+.d-success__icon {
+  width: 56px;
+  height: 56px;
+  background: #ECFDF5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+}
+
+.d-success__icon svg {
+  width: 28px;
+  height: 28px;
+  color: #059669;
+}
+
+.d-success h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.d-success p {
+  color: #6B7280;
+  margin-bottom: 1.5rem;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────────── */
+.d-footer {
+  background: #111827;
+  color: #9CA3AF;
+  padding: 3rem 2rem;
+}
+
+.d-footer__inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  gap: 4rem;
+  flex-wrap: wrap;
+}
+
+.d-footer__brand p {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.d-logo__text {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: white;
+}
+
+.d-footer nav {
+  display: flex;
+  gap: 3rem;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.d-footer__col h3 {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: white;
+  margin-bottom: 1rem;
+}
+
+.d-footer__col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.d-footer__col a {
+  color: #9CA3AF;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: color 0.15s;
+}
+
+.d-footer__col a:hover {
+  color: white;
+}
+
+.d-footer__col a:focus-visible {
+  outline: 2px solid #818CF8;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* ─── Tunnel overlay ─────────────────────────────────────────────────────── */
+.tunnel-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* ─── Motor tremor cursor ────────────────────────────────────────────────── */
+.tremor-cursor {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  background: #EF4444;
+  border: 2.5px solid white;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+}
+
+/* ─── Mode effects ───────────────────────────────────────────────────────── */
+
+/* Blind mode */
+.mode--blind .demo-wrapper * {
+  color: #000000 !important;
+  background-color: #000000 !important;
+  border-color: #000000 !important;
+  outline-color: #000000 !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-decoration-color: #000000 !important;
+}
+
+.mode--blind .demo-wrapper {
+  background: #000000;
+}
+
+.mode--blind .demo-skip:focus {
+  color: white !important;
+  background: #4F46E5 !important;
+}
+
+/* Low vision */
+.mode--low-vision .demo-wrapper {
+  filter: blur(2.5px) contrast(0.55) brightness(0.85);
+}
+
+/* Color blindness */
+.mode--color-blind .demo-wrapper {
+  filter: url(#deuteranopia-filter);
+}
+
+/* Motor */
+.mode--motor .demo-wrapper {
+  cursor: none;
+}
+
+/* Dyslexia
+   Simulates how dense, unaccommodated text feels: letters crowded together,
+   similar letterforms (b/d/p/q) blending, text appearing to drift on the line.
+   Wide spacing is an *accommodation* — this shows the difficulty without it. */
+.mode--dyslexia .demo-wrapper {
+  font-family: Arial, Helvetica, sans-serif; /* geometric sans where b/d/p/q look most similar */
+  letter-spacing: -0.03em;  /* crowded, letters pressing into each other */
+  word-spacing: -0.06em;    /* words run together */
+  line-height: 1.25;        /* tight lines make tracking harder */
+}
+
+/* Headings: tighter tracking makes similar letterforms harder to distinguish */
+.mode--dyslexia .demo-wrapper h1,
+.mode--dyslexia .demo-wrapper h2,
+.mode--dyslexia .demo-wrapper h3 {
+  letter-spacing: -0.04em;
+}
+
+/* Chromatic fringe + swim: letters appear to split and drift on the baseline */
+@keyframes dyslexia-swim {
+  0%   { transform: translateX(0);     text-shadow: 0.04em 0 0 rgba(220,30,30,0.25), -0.04em 0 0 rgba(30,80,220,0.2); }
+  20%  { transform: translateX(1.5px); text-shadow: 0.02em 0 0 rgba(220,30,30,0.2),  -0.05em 0 0 rgba(30,80,220,0.25); }
+  45%  { transform: translateX(-2px);  text-shadow: 0.06em 0 0 rgba(220,30,30,0.3),  -0.02em 0 0 rgba(30,80,220,0.15); }
+  70%  { transform: translateX(1px);   text-shadow: 0.03em 0 0 rgba(220,30,30,0.2),  -0.04em 0 0 rgba(30,80,220,0.2); }
+  100% { transform: translateX(0);     text-shadow: 0.04em 0 0 rgba(220,30,30,0.25), -0.04em 0 0 rgba(30,80,220,0.2); }
+}
+
+.mode--dyslexia .demo-wrapper p,
+.mode--dyslexia .demo-wrapper label,
+.mode--dyslexia .demo-wrapper li,
+.mode--dyslexia .demo-wrapper h1,
+.mode--dyslexia .demo-wrapper h2,
+.mode--dyslexia .demo-wrapper h3 {
+  animation: dyslexia-swim 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mode--dyslexia .demo-wrapper p,
+  .mode--dyslexia .demo-wrapper label,
+  .mode--dyslexia .demo-wrapper li,
+  .mode--dyslexia .demo-wrapper h1,
+  .mode--dyslexia .demo-wrapper h2,
+  .mode--dyslexia .demo-wrapper h3 {
+    animation: none;
+    /* static chromatic fringe still shows the visual confusion */
+    text-shadow: 0.04em 0 0 rgba(220,30,30,0.25), -0.04em 0 0 rgba(30,80,220,0.2);
+  }
+}
+
+/* Tunnel vision */
+.mode--tunnel .demo-wrapper {
+  /* overlay handles the effect */
+}
+
+/* ─── Responsive tweaks ──────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .mode-panel__inner {
+    padding: 1rem 1rem;
+    gap: 1rem;
+  }
+
+  .d-header__inner {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+
+  .d-nav {
+    display: none;
+  }
+
+  .d-hero {
+    padding: 3rem 1rem 2.5rem;
+  }
+
+  .d-features {
+    padding: 3rem 1rem;
+  }
+
+  .d-signup {
+    padding: 3rem 1rem;
+  }
+
+  .d-signup__card {
+    padding: 1.5rem;
+  }
+
+  .d-footer__inner {
+    gap: 2rem;
+  }
+
+  .d-footer nav {
+    gap: 1.5rem;
+    margin-left: 0;
+  }
+}
