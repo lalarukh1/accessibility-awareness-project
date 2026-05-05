@@ -49,6 +49,24 @@ Each mode includes a real statistic (WHO, global prevalence data) and a tip for 
 
 ---
 
+### 3 — Alt Text Generator `AI Vision`
+
+A practical tool for developers and content creators: upload any image (or pick from curated examples), choose how detailed you need the description, and Claude writes ready-to-use alt text you can copy straight into your code.
+
+**Three output styles:**
+
+| Style | What you get |
+|---|---|
+| **Concise** | A short phrase — the essential subject only, under 10 words |
+| **Descriptive** | 1–2 sentences covering what the image shows and what it communicates |
+| **Detailed** | Full breakdown including colours, data, visible text — suited to charts, infographics, and complex visuals |
+
+The experiment makes a point as much as it provides a utility: most images on the web have no alt text, and most that do have unhelpful alt text like "image.jpg". Seeing what a proper description looks like — and how different it is across contexts — changes how you think about the images you ship.
+
+Powered by Claude's vision API. Runs entirely in the browser.
+
+---
+
 ## Resource Library
 
 A curated set of videos, talks, and first-hand accounts. Real people showing what it means to navigate the web with a disability — not simulated, not hypothetical.
