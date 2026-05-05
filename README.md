@@ -26,6 +26,8 @@ A news reader built entirely around a conversational AI assistant. Designed for 
 - Ask it to read an article, describe an image, go to a different page, or answer a question about the content
 - Works entirely without a mouse or visual interface
 
+The assistant is built on an ElevenLabs Conversational AI agent — not just text-to-speech, but a full agentic loop that understands context, holds a conversation, and decides how to respond. Claude handles the reasoning behind those decisions: interpreting what the user actually wants, understanding page structure, and generating image descriptions.
+
 The insight here: screen readers narrate the whole page at you. An AI assistant waits for your questions. That shift in model — from broadcast to conversation — makes the web meaningfully more usable for blind users, and more pleasant for everyone else.
 
 ---
