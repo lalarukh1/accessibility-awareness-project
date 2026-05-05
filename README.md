@@ -1,39 +1,57 @@
 # Accessibility Awareness Project
 
-**An accessible news site with a conversational AI voice assistant — built to make the web actually usable for blind and visually impaired people.**
-
-Hold Space. Ask a question. Navigate by voice.
+**A collection of experiments exploring what it actually means to design for disabled users — and why getting it right benefits everyone.**
 
 ---
 
-## What it does
+## The idea
 
-This project combines a voice-navigated news reader with hands-on disability simulations and educational resources — all built around one idea: accessibility shouldn't be an afterthought.
+Accessibility is usually treated as a checklist: hit the contrast ratio, add the ARIA label, ship. This project takes a different approach. It asks what it feels like to navigate the web when sight, motor control, or cognition works differently — and uses that question to build things that genuinely help.
 
-The news reader lets you hold Space to speak with an AI assistant that orients you to the page, reads articles, describes images, and navigates the site through natural conversation. No screen-reader required.
+With AI handling the standard work at scale — semantic structure, labels, contrast audits — there's space to go further. To design not for a spec, but for a specific person and how they actually experience the web.
 
-The accessibility demo section lets sighted users experience the web through impaired vision, motor control, and cognitive load simulations — making the stakes of inaccessible design tangible.
+These experiments are for developers, designers, and anyone who wants to understand what's at stake when we make (or skip) accessibility decisions.
 
 ---
 
-## Features
+## Experiments
 
-### Voice-navigated news
-- **Hold Space to speak** — conversational AI powered by ElevenLabs
-- **AI page orientation** — on load, the assistant describes where you are and what's available
-- **Voice navigation** — "take me to the next article", "go back home", "what's on this page"
-- **Article reading and Q&A** — ask the assistant to read, summarise, or answer questions
-- **Image descriptions** — AI-generated alt text spoken on request
-- **Status pill** — visual indicator shows assistant state (idle / listening / thinking / speaking)
+### 1 — BeMyVoice News `Voice Navigation`
 
-### Disability simulations
-- Blurred and tunnel-vision overlays simulating visual impairment
-- Motor control simulation with cursor lag and tremor
-- Cognitive load simulation with distractions and reduced contrast
+A news reader built entirely around a conversational AI assistant. Designed for blind users, but the experience it creates — a patient, context-aware assistant that answers your questions about the page rather than reading everything at you — turns out to be a better interface for anyone.
 
-### Resources
-- Curated educational content on accessibility standards, tools, and best practices
-- Links to WCAG guidelines, testing tools, and advocacy organisations
+**How it works:**
+- Hold Space to activate the assistant, speak your request, release to send
+- On load, the assistant orients you: where you are, what's on the page, how to navigate
+- Ask it to read an article, describe an image, go to a different page, or answer a question about the content
+- Works entirely without a mouse or visual interface
+
+The insight here: screen readers narrate the whole page at you. An AI assistant waits for your questions. That shift in model — from broadcast to conversation — makes the web meaningfully more usable for blind users, and more pleasant for everyone else.
+
+---
+
+### 2 — Empathy Mode `Disability Simulation`
+
+A form-based demo where you experience a normal webpage through six different accessibility conditions. Not a filter overlay — each mode changes how you interact with the page, not just how it looks.
+
+| Mode | What you experience |
+|---|---|
+| **Blind** | Full dark screen. Navigate by Tab only. Every element must earn its label. |
+| **Low Vision** | Partial sight. Body text becomes a strain; only large headings remain readable. |
+| **Color Blindness** | Deuteranopia (red-green). Try submitting a form with errors — can you tell success from failure without colour? |
+| **Motor Impairment** | Tremor simulation. Cursor drift makes small targets, checkboxes, and password toggles genuinely hard to hit. |
+| **Dyslexia** | Letters drift, similar forms blur (b, d, p, q). Reading a full sentence takes real concentration. |
+| **Tunnel Vision** | Glaucoma-style peripheral loss. Finding navigation or scanning a layout means moving your mouse across the whole screen. |
+
+Each mode includes a real statistic (WHO, global prevalence data) and a tip for what to try — so the experience connects to something concrete, not just discomfort.
+
+---
+
+## Resource Library
+
+A curated set of videos, talks, and first-hand accounts. Real people showing what it means to navigate the web with a disability — not simulated, not hypothetical.
+
+Includes: blind user comparisons of accessible vs inaccessible sites, accessibility overlay teardowns, hearing loss demonstrations, and a TED talk on why accessibility has to be designed in from the start.
 
 ---
 
@@ -55,14 +73,8 @@ npm install
 npm run dev
 ```
 
-Set your ElevenLabs agent ID:
+Set your ElevenLabs agent ID for the BeMyVoice experiment:
 
 ```env
 VITE_ELEVENLABS_AGENT_ID=your_agent_id_here
 ```
-
----
-
-## Why it matters
-
-Screen readers narrate *everything* before you reach the content you came for. This project explores a different model: an assistant that waits for your questions rather than dumping the whole page at you. Combined with the simulation demos, it's meant to shift accessibility from a compliance checkbox to something you actually feel.
