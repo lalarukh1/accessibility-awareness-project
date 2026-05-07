@@ -8,6 +8,7 @@ import Home from './pages/Home'
 import Article from './pages/Article'
 import AccessibilityDemo from './pages/AccessibilityDemo'
 import Resources from './pages/Resources'
+import AltTextGenerator from './pages/AltTextGenerator'
 
 function BeMyVoiceApp() {
   return (
@@ -48,6 +49,7 @@ const sectionNames = {
   '/bemyvoice': 'BeMyVoice News',
   '/accessibility-demo': 'Empathy Mode',
   '/resources': 'Resource Library',
+  '/alt-text': 'Alt Text Generator',
 }
 
 function GlobalHeader() {
@@ -73,6 +75,7 @@ export default function App() {
         <Route path="/bemyvoice/*" element={<BeMyVoiceApp />} />
         <Route path="/accessibility-demo" element={<AccessibilityDemo />} />
         <Route path="/resources" element={<Resources />} />
+        <Route path="/alt-text" element={<AltTextGenerator />} />
       </Routes>
     </>
   )

@@ -1,0 +1,3142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ThemeSeed — Design System Generator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gen-bg: #ffffff;
+      --gen-text: #111111;
+      --gen-text-muted: #6b7280;
+      --gen-border: #e5e7eb;
+      --gen-border-focus: #6366f1;
+      --gen-brand: #6366f1;
+      --gen-brand-hover: #4f46e5;
+      --gen-brand-subtle: #eef2ff;
+      --gen-surface: #f9fafb;
+      --gen-radius: 8px;
+      --gen-font: 'Inter', system-ui, sans-serif;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: var(--gen-font);
+      background: var(--gen-bg);
+      color: var(--gen-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ─── Generator layout ─── */
+    .gen-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 56px 24px 80px;
+      flex: 1;
+    }
+
+    .gen-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .gen-logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .gen-logo svg { flex-shrink: 0; }
+
+    .gen-logo-text {
+      font-size: 1.375rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--gen-text);
+    }
+
+    .gen-tagline {
+      font-size: 0.9375rem;
+      color: var(--gen-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── Form ─── */
+    .gen-form {
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .form-card {
+      background: var(--gen-bg);
+      border: 1px solid var(--gen-border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .form-section {
+      padding: 28px 28px 0;
+    }
+
+    .form-section:last-of-type {
+      padding-bottom: 28px;
+    }
+
+    .form-section-title {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--gen-text-muted);
+      margin-bottom: 16px;
+    }
+
+    .form-divider {
+      height: 1px;
+      background: var(--gen-border);
+      margin: 24px 0 0;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .form-group:last-child { margin-bottom: 0; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    label {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--gen-text);
+    }
+
+    label .required {
+      color: #ef4444;
+      margin-left: 2px;
+    }
+
+    label .optional {
+      font-weight: 400;
+      color: var(--gen-text-muted);
+      font-size: 0.75rem;
+      margin-left: 4px;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    textarea,
+    select {
+      font-family: var(--gen-font);
+      font-size: 0.875rem;
+      color: var(--gen-text);
+      background: var(--gen-bg);
+      border: 1px solid var(--gen-border);
+      border-radius: var(--gen-radius);
+      padding: 9px 12px;
+      width: 100%;
+      outline: none;
+      transition: border-color 150ms, box-shadow 150ms;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--gen-border-focus);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 88px;
+      line-height: 1.6;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 32px;
+      cursor: pointer;
+    }
+
+    .api-key-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .api-key-row input { flex: 1; font-family: monospace; font-size: 0.8125rem; }
+
+    .api-key-toggle {
+      background: none;
+      border: 1px solid var(--gen-border);
+      border-radius: 6px;
+      padding: 9px 10px;
+      cursor: pointer;
+      color: var(--gen-text-muted);
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      transition: border-color 150ms, color 150ms;
+    }
+
+    .api-key-toggle:hover { border-color: var(--gen-text-muted); color: var(--gen-text); }
+
+    .api-key-hint {
+      font-size: 0.75rem;
+      color: var(--gen-text-muted);
+      margin-top: 4px;
+    }
+
+    .api-key-hint a { color: var(--gen-brand); text-decoration: none; }
+    .api-key-hint a:hover { text-decoration: underline; }
+
+    /* ─── Submit button ─── */
+    .form-footer {
+      padding: 20px 28px;
+      border-top: 1px solid var(--gen-border);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-generate {
+      font-family: var(--gen-font);
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: #ffffff;
+      background: var(--gen-brand);
+      border: none;
+      border-radius: var(--gen-radius);
+      padding: 11px 24px;
+      cursor: pointer;
+      transition: background 150ms, transform 80ms;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn-generate:hover { background: var(--gen-brand-hover); }
+    .btn-generate:active { transform: scale(0.98); }
+
+    .btn-generate:focus-visible {
+      outline: 3px solid rgba(99,102,241,0.4);
+      outline-offset: 2px;
+    }
+
+    .form-note {
+      font-size: 0.75rem;
+      color: var(--gen-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── Loading state ─── */
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 300px;
+      gap: 20px;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+    }
+
+    .loading-spinner circle {
+      stroke: var(--gen-brand);
+      stroke-dasharray: 88;
+      stroke-dashoffset: 20;
+      stroke-linecap: round;
+      transform-origin: center;
+      animation: spin 0.9s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-status {
+      font-size: 0.9375rem;
+      color: var(--gen-text-muted);
+      text-align: center;
+      min-height: 24px;
+    }
+
+    .loading-bar {
+      width: 240px;
+      height: 3px;
+      background: var(--gen-border);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .loading-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gen-brand);
+      border-radius: 99px;
+      transition: width 0.5s ease;
+    }
+
+    .loading-timer {
+      font-size: 0.75rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--gen-text-muted);
+      opacity: 0.6;
+      letter-spacing: 0.02em;
+    }
+
+    /* ─── Error state ─── */
+    .error-banner {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: var(--gen-radius);
+      padding: 14px 16px;
+      font-size: 0.875rem;
+      color: #b91c1c;
+      line-height: 1.5;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .error-banner.visible { display: block; }
+
+    /* ─── Result state ─── */
+    #result {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .btn-download {
+      font-family: var(--gen-font);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: #ffffff;
+      background: var(--gen-brand);
+      border: none;
+      border-radius: var(--gen-radius);
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background 150ms;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-download:hover { background: var(--gen-brand-hover); }
+
+    .btn-secondary {
+      font-family: var(--gen-font);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--gen-text);
+      background: var(--gen-bg);
+      border: 1px solid var(--gen-border);
+      border-radius: var(--gen-radius);
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: background 150ms, border-color 150ms;
+    }
+
+    .btn-secondary:hover { background: var(--gen-surface); border-color: #d1d5db; }
+
+    .preview-frame-wrap {
+      width: 100%;
+      max-width: 1100px;
+      border: 1px solid var(--gen-border);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+    }
+
+    .preview-bar {
+      background: var(--gen-surface);
+      border-bottom: 1px solid var(--gen-border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .preview-dots {
+      display: flex;
+      gap: 6px;
+    }
+
+    .preview-dots span {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--gen-border);
+    }
+
+    .preview-url {
+      flex: 1;
+      background: var(--gen-bg);
+      border: 1px solid var(--gen-border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      color: var(--gen-text-muted);
+      font-family: monospace;
+      text-align: center;
+    }
+
+    #preview-iframe {
+      width: 100%;
+      height: 680px;
+      border: none;
+      display: block;
+    }
+
+    [hidden] { display: none !important; }
+
+    /* ─── Footer ─── */
+    .gen-footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.75rem;
+      color: var(--gen-text-muted);
+      border-top: 1px solid var(--gen-border);
+    }
+  </style>
+</head>
+<body>
+
+<div class="gen-wrap">
+
+  <!-- ── Header ── -->
+  <div class="gen-header">
+    <div class="gen-logo">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect width="28" height="28" rx="8" fill="#6366f1"/>
+        <path d="M14 6C14 6 8 11 8 16.5C8 19.538 10.686 22 14 22C17.314 22 20 19.538 20 16.5C20 11 14 6 14 6Z" fill="white"/>
+        <path d="M14 10C14 10 10.5 13.5 10.5 16.5C10.5 18.433 12.015 20 14 20" fill="rgba(255,255,255,0.35)"/>
+      </svg>
+      <span class="gen-logo-text">ThemeSeed</span>
+    </div>
+    <p class="gen-tagline">Generate beautiful design system docs in seconds. One source of truth that keeps design and dev in sync.</p>
+  </div>
+
+  <!-- ── Generator Form ── -->
+  <form class="gen-form" id="gen-form" autocomplete="off" novalidate>
+
+    <div class="form-card">
+
+      <!-- API Key -->
+      <div class="form-section">
+        <div class="form-section-title">API Configuration</div>
+        <div class="form-group">
+          <label for="api-key">Anthropic API Key <span class="required">*</span></label>
+          <div class="api-key-row">
+            <input type="password" id="api-key" name="apiKey" placeholder="sk-ant-..." autocomplete="off" required>
+            <button type="button" class="api-key-toggle" id="toggle-key" title="Show/hide key" aria-label="Toggle key visibility">
+              <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <p class="api-key-hint">Your key is never sent anywhere except directly to Anthropic. <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Get your key →</a></p>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Project Info -->
+      <div class="form-section">
+        <div class="form-section-title">Project Brief</div>
+        <div class="form-group">
+          <label for="project-name">Project Name <span class="required">*</span></label>
+          <input type="text" id="project-name" name="projectName" placeholder="e.g. GreenCart" required maxlength="80">
+        </div>
+        <div class="form-group">
+          <label for="description">Describe your website <span class="required">*</span></label>
+          <textarea id="description" name="description" placeholder="e.g. An e-commerce platform for sustainable fashion. Clean, modern, trustworthy. Target audience is eco-conscious millennials." required maxlength="800"></textarea>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+
+      <!-- Options -->
+      <div class="form-section">
+        <div class="form-section-title">Options</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="industry">Industry</label>
+            <select id="industry" name="industry">
+              <option value="Technology">Technology</option>
+              <option value="E-commerce" selected>E-commerce</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Education">Education</option>
+              <option value="Finance">Finance</option>
+              <option value="Food & Hospitality">Food & Hospitality</option>
+              <option value="Creative / Portfolio">Creative / Portfolio</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="mood">Mood / Tone</label>
+            <select id="mood" name="mood">
+              <option value="Warm & Cozy — analogous warm oranges and browns, comfort-driven">Warm & Cozy</option>
+              <option value="Cool & Serene — monochromatic cool blues or purples, calm and focused" selected>Cool & Serene</option>
+              <option value="Fresh & Natural — muted greens and cool analogous tones, grounded and organic">Fresh & Natural</option>
+              <option value="Playful — bright triadic or tetradic primaries, bold and fun with high energy and variety">Playful</option>
+              <option value="Sun-Kissed — warm golden yellows, peach and coral tones, cheerful and sun-drenched">Sun-Kissed</option>
+              <option value="Bold & Electric — maximum saturation neons and triadic primaries, high energy">Bold & Electric</option>
+              <option value="Rich & Festive — deep jewel tones and complementary pairs, opulent">Rich & Festive</option>
+              <option value="Quiet Luxury — muted warm neutrals, champagne and dusty rose, understated elegance">Quiet Luxury</option>
+              <option value="Professional & Trustworthy — credible navy and slate blues with clean neutrals">Professional & Trustworthy</option>
+              <option value="Urban & Industrial — concrete greys with a single strong warm or cool accent">Urban & Industrial</option>
+              <option value="Nocturnal & Dreamy — deep monochromatic indigo or purple, mysterious and calm">Nocturnal & Dreamy</option>
+              <option value="Whimsical & Pastel — soft triadic pastels of purple, pink and blue, dreamy and approachable">Whimsical & Pastel</option>
+              <option value="Retro & Nostalgic — warm earthy tones with a cool teal accent, vintage 70s aesthetic">Retro & Nostalgic</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="dark-mode">Dark Mode Preference</label>
+          <select id="dark-mode" name="darkMode">
+            <option value="Light only" selected>Light only</option>
+            <option value="Dark only">Dark only</option>
+            <option value="Both (light and dark)">Both (light and dark)</option>
+          </select>
+        </div>
+      </div>
+
+    </div><!-- /form-card -->
+
+    <div id="error-banner" class="error-banner" role="alert" aria-live="polite"></div>
+
+    <div class="form-footer" style="background: var(--gen-surface); border: 1px solid var(--gen-border); border-top: none; border-radius: 0 0 12px 12px;">
+      <button type="submit" class="btn-generate" id="btn-generate">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Generate Design System
+      </button>
+      <p class="form-note">Powered by Claude claude-sonnet-4-20250514. Takes ~15–30 seconds.</p>
+    </div>
+
+  </form>
+
+  <!-- ── Loading ── -->
+  <div id="loading" hidden>
+    <svg class="loading-spinner" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Loading">
+      <circle cx="20" cy="20" r="16" stroke-width="3"/>
+    </svg>
+    <div class="loading-status" id="loading-status">Analysing your brief…</div>
+    <div class="loading-bar"><div class="loading-bar-fill" id="loading-bar-fill"></div></div>
+    <div class="loading-timer" id="loading-timer">0s</div>
+  </div>
+
+  <!-- ── Result ── -->
+  <div id="result" hidden>
+    <div class="result-actions">
+      <button class="btn-download" id="btn-download">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download
+      </button>
+      <button class="btn-secondary" id="btn-regenerate">Generate another</button>
+    </div>
+    <div class="preview-frame-wrap">
+      <div class="preview-bar">
+        <div class="preview-dots"><span></span><span></span><span></span></div>
+        <div class="preview-url" id="preview-url">preview</div>
+      </div>
+      <iframe id="preview-iframe" title="Design system preview" sandbox="allow-scripts"></iframe>
+    </div>
+  </div>
+
+</div><!-- /gen-wrap -->
+
+<footer class="gen-footer">
+  ThemeSeed · Design System Generator · Powered by <a href="https://anthropic.com" style="color: inherit;">Anthropic Claude</a>
+</footer>
+
+<script src="config.js"></script>
+<script>
+'use strict';
+
+// ─────────────────────────────────────────────
+// Constants
+// ─────────────────────────────────────────────
+
+const MODEL = 'claude-sonnet-4-20250514';
+
+const LOADING_MESSAGES = [
+  'Analysing your brief…',
+  'Generating colour tokens…',
+  'Choosing typography…',
+  'Building component styles…',
+  'Assembling contrast checks…',
+  'Generating spacing tokens…',
+  'Writing your design system…',
+  'Almost there…',
+];
+
+const SYSTEM_PROMPT = `You are a senior UX designer and design system architect. Your job is to take a project brief and generate a complete, professional, accessible design system following Material Design and WCAG 2.1 principles.
+
+You always return valid JSON only. No markdown, no explanation, no preamble, no code fences. Just the raw JSON object.
+
+CRITICAL WRITING RULE — NO EM DASHES OR EN DASHES:
+You MUST NOT use em dashes (—) or en dashes (–) anywhere. Not in rationale, not in taglines, not in descriptions, not in usage fields, not anywhere. Replace every — or – with a comma, colon, or period. Rewrite the sentence if needed. This rule overrides all style preferences. Before returning JSON, scan every string value and confirm zero dashes of any kind.
+
+BRAND NAME COLOUR ANALYSIS — do this first, before applying the mood:
+The project name is a strong colour signal. Before choosing any palette, parse the brand name for embedded colour meaning:
+- Colour words: "BlueSky", "GreenLeaf", "GoldenHour", "SunshineAndLemons" → those colours must anchor the palette
+- Nature/food/object references: "Lemons" → yellow-citrus, "Rose" → pink, "Frost" → icy blue, "Ember" → warm orange
+- Emotional/cultural associations: "Solar" → golden yellow, "Arctic" → cold blue-white, "Midnight" → deep navy
+If the brand name implies specific colours AND the selected mood conflicts with them, blend both: use the brand's implied hues but express them with the mood's energy (e.g. "SunshineAndLemons" + "Nocturnal & Dreamy" → deep midnight navy with golden yellow accent, not purple). Never ignore what the brand name communicates — it is the strongest signal of all.
+
+DARK MODE RULES — read the "Dark mode" value in the brief and follow exactly:
+- "Light only": generate colors.semantic only. Do NOT include colors.semanticDark.
+- "Dark only": generate colors.semantic as a dark theme (dark backgrounds, light text). Do NOT include colors.semanticDark.
+- "Both (light and dark)": generate colors.semantic as the LIGHT theme AND colors.semanticDark as the DARK theme overrides. Both are required.
+
+For dark mode semantic tokens (semanticDark), use these patterns:
+- background.page: very dark neutral, e.g. #0f1117 to #1a1d27
+- background.surface: slightly lighter than page, e.g. #16191f to #22262e
+- background.elevated: card/modal surface, e.g. #1e2128 to #2a2f38
+- text.primary: near-white, e.g. #f0f2f5 to #ffffff
+- text.secondary: medium light, e.g. #9ca3af to #b8bec7
+- text.tertiary: muted, e.g. #6b7280 to #7a8291
+- text.inverse: dark (for use on light surfaces), e.g. #111111
+- border.default: subtle, e.g. #2a2f38 to #323840
+- border.strong: visible, e.g. #434b56 to #4f5766
+- brand.primary: keep the same hue but ensure it passes 4.5:1 on dark backgrounds — may need to lighten by 1-2 steps
+- brand.primarySubtle: very dark tinted bg, e.g. hue at 10-15% opacity on dark
+- accent: same hue adjustments as brand
+- feedback: adjust bg to dark tinted versions, keep text readable
+
+Your color choices must:
+- Follow established color theory (complementary, analogous, or triadic relationships)
+- Pass WCAG 2.1 AA contrast ratios (4.5:1 for normal text, 3:1 for large text and UI components)
+- Reflect the mood AND the brand name's implied palette
+- Include proper semantic naming
+- Be genuinely distinctive and tailored to the brief, not generic defaults
+- NEVER sacrifice WCAG compliance for aesthetics — always verify that text on colored backgrounds meets contrast requirements
+
+Your typography choices must:
+- Use Google Fonts only
+- Pair a display/heading font with a body font
+- Consider the mood and audience of the brief
+- Use a practical, round-number type scale — NOT a strict mathematical modular scale
+- Sizes must snap to common design system values: 12, 14, 16, 18, 20, 24, 28, 30, 32, 36, 48, 60, 72px
+- Avoid fractional or unusual sizes like 25px, 31px, 39px, 49px — these look odd and are never used in real products
+- Reference scales: Tailwind (12/14/16/18/20/24/30/36/48/60/72), Material Design (12/14/16/20/24/28/32/36/45/57), IBM Carbon (12/14/16/20/24/28/32/36/42)
+- Express sizes in rem (divide px by 16): 12px=0.75rem, 14px=0.875rem, 16px=1rem, 18px=1.125rem, 20px=1.25rem, 24px=1.5rem, 30px=1.875rem, 36px=2.25rem, 48px=3rem, 60px=3.75rem
+- Adjust weights per mood: editorial/luxury uses lighter weights (300-400), bold/electric uses heavier (600-800)
+
+Your button design must:
+- Use the generated color tokens
+- Be accessible with visible focus states
+- Follow minimum touch target guidelines (44x44px minimum)
+
+Calculate real WCAG contrast ratios using the relative luminance formula:
+L = 0.2126 * R + 0.7152 * G + 0.0722 * B (where R,G,B are linearised)
+Ratio = (L1 + 0.05) / (L2 + 0.05) where L1 is the lighter colour.
+
+═══════════════════════════════════════════════════
+PALETTE KNOWLEDGE BASE — analysed from 100+ real palettes
+Use these fingerprints as inspiration for the selected mood. Always adapt to fit
+the specific project brief, industry, and dark-mode preference. Accessibility
+(WCAG 2.1 AA) overrides aesthetics — shift lightness/saturation as needed.
+═══════════════════════════════════════════════════
+
+WARM & COZY
+Theory: analogous warm scheme, orange → amber → brown
+Signature hues: burnt orange (#BE5103–#C05800), warm amber (#F4A460), dark chocolate (#38240D–#713600), cream (#FDFBD4–#F5F5DC)
+Reference palettes: Pumpkin Spice, Autumn Leaves, Spiced Mocha, Cappuccino, Chocolate Truffle (#713600 #C05800 #FDFBD4 #38240D), Burnt Sienna (#E35336 #F5F5DC #F4A460 #A0522D)
+Best for: food brands, cafes, lifestyle, home goods, artisanal products
+Accessibility note: burnt orange primaries on cream pass AA; dark brown on cream exceeds AAA — always put readable text on the light neutrals
+
+COOL & SERENE
+Theory: monochromatic cool blue or purple; desaturated tints for backgrounds
+Signature hues: ice blue (#B8E3E9), slate blue (#6A89A7–#88BDF2), deep navy (#0B2E33–#384959), soft lavender (#CCCCFF), midnight (#292966)
+Reference palettes: Winter Chill (#B8E3E9→#0B2E33), Calm Blue (#90D5FF #517891), Stormy Morning (#6A89A7 #BDDFC #88BDF2 #384959), Under the Moonlight (#CCCCFF #292966)
+Best for: wellness, meditation, SaaS, healthcare, finance
+Accessibility note: mid-tone blues can fail on white — use deep navy (#1a3a4a range) for body text; light tints only for backgrounds
+
+FRESH & NATURAL
+Theory: monochromatic or analogous greens; muted, earthy saturation
+Signature hues: sage (#B2AC88), forest (#2E6F40–#519755), celadon (#A8DCAB), mint (#CFFFDC–#98FBCB), olive (#636B2F–#BAC095), dark forest (#253D2C)
+Reference palettes: Lush Forest (#2E6F40 #CFFFDC #68BA7F #253D2C), Mossy Hollow (#636B2F #BAC095 #D4DE95 #3D4127), Wildflowers (#A8DCAB #519755 #DBAAA7 #BE91BE), Eucalyptus Grove (#B2AC88 #4B6E48), Minty Fresh (#98FBCB #558B71)
+Best for: eco brands, outdoor, agriculture, wellness, sustainability
+Accessibility note: light mint and celadon are background-only; pair with #1a3a1a dark green or near-black for text
+
+PLAYFUL
+Theory: triadic or tetradic scheme using bold saturated primaries — red/blue/yellow or purple/green/orange; variety is the point
+Signature hues: vivid coral (#FF6B6B), electric blue (#3B82F6), bright purple (#A855F7), lime (#84CC16), hot pink (#EC4899)
+Reference palettes: Bubblegum Pop, California Beaches, Watermelon Splash, Cotton Candy Skies
+Best for: consumer apps, gaming, children's platforms, social/entertainment, creative tools
+Accessibility note: bold saturated hues on white generally pass AA — but always verify mid-tone accent text (purple/blue); darken by 20% if needed
+
+SUN-KISSED
+Theory: analogous warm scheme anchored in golden yellow, peach and coral — bright but not neon
+Signature hues: golden yellow (#FFBE0B), peach (#FFCBA4), coral (#FF7F57), warm amber (#F4A460), mango (#FF9A3C)
+Reference palettes: Mango Popsicle, Pistachio Dream, Zesty Lemon, Freshly Squeezed, Guava, Golden Hour
+Best for: food brands, lifestyle, travel, summer/seasonal products, consumer apps
+Accessibility note: yellow on white fails AA for text — always darken golden hues to #B45309 range for interactive/text use; use warm amber as primary, golden as highlight only
+
+BOLD & ELECTRIC
+Theory: maximum saturation, triadic or split-complementary primaries; neon accents
+Signature hues: electric blue (#0066FF), neon green (#39FF14), vivid magenta (#FF00FF), hot orange (#FF4500)
+Reference palettes: Chili Spice (#CD1C18 #FFA896 #9B1313 #38000A), Blooming Romance (#660033 #E673AC #469110 #00520A)
+Best for: gaming, sports, fintech disruptors, entertainment, nightlife
+Accessibility note: neons require a dark (#111) base to maintain contrast; never place neon text on white or light backgrounds
+
+RICH & FESTIVE
+Theory: deep jewel tones — ruby, sapphire, emerald, amethyst; complementary pairs
+Signature hues: deep ruby (#660033), jewel teal (#006D77), sapphire (#003F88), royal purple (#4B0082), gold (#D4AF37)
+Reference palettes: Blooming Romance (#660033 #E673AC #469110 #00520A), Wisteria Bloom (#D3D3FF #9400D3 #D8BFD8 #ED80E9 — shift darker for jewel)
+Best for: luxury events, hospitality, premium retail, celebration platforms
+Accessibility note: deep jewel primary on white exceeds 4.5:1 easily; beware of light jewel tints used as text colours
+
+QUIET LUXURY
+Theory: muted warm neutrals — champagne, dusty rose, warm grey, soft gold; low saturation
+Signature hues: champagne (#F7E7CE), taupe (#BDB96A–#BDB76B), dusty rose (#DBAAA7), warm ivory (#FDFBD4), muted gold (#D4AF37–#CE8946)
+Reference palettes: Golden Taupe (#D4AF37 #BDB76B #FDFBD4 #CE8946), Tuscan Sunset, Golden Hour, Fresh Peach, Spiced Chai, Cappuccino
+Best for: fashion, beauty, high-end retail, home interiors, hospitality
+Accessibility note: muted gold on ivory fails AA — always use a dark warm brown (#3a2a10) for text, reserve gold for decorative/icon use only
+
+PROFESSIONAL & TRUSTWORTHY
+Theory: monochromatic navy/slate blues, with cool grey neutrals
+Signature hues: navy (#1B2A4A–#272757), slate blue (#505081–#6A89A7), cool grey (#8686AC), steel (#384959)
+Reference palettes: Stormy Morning (#6A89A7 #BDDFC #88BDF2 #384959), Blue Eclipse (#272757 #8686AC #505081 #0F0E47), Ink Wash (#4A4A4A #CBCBCB #FFFFE3 #6D8196)
+Best for: SaaS, fintech, legal, healthcare, government, B2B
+Accessibility note: medium blues (#6A89A7) on white ≈ 3:1 only — use for large UI elements; deep navy for all text
+
+URBAN & INDUSTRIAL
+Theory: neutral greyscale base with one deliberate high-contrast accent
+Signature hues: charcoal (#4A4A4A), mid-grey (#CBCBCB), warm ivory (#FFFFE3), steel blue accent (#6D8196)
+Reference palettes: Ink Wash (#4A4A4A #CBCBCB #FFFFE3 #6D8196)
+Best for: design agencies, portfolios, digital art platforms, high-end retail
+Accessibility note: charcoal (#4A4A4A) on white = 9.7:1 — excellent; steel blue accent on white ≈ 4.2:1 — borderline, increase depth slightly for text use
+
+NOCTURNAL & DREAMY
+Theory: deep monochromatic indigo or purple; very dark backgrounds with luminous mid-tone accents
+Signature hues: deep indigo (#0F0E47–#1a1060), purple (#9400D3–#AD56C4), lilac (#D3D3FF–#D8BFD8), orchid (#ED80E9)
+Reference palettes: Blue Eclipse (#272757 #8686AC #505081 #0F0E47), Wisteria Bloom (#D3D3FF #9400D3 #D8BFD8 #ED80E9), Under the Moonlight (#CCCCFF #292966)
+Best for: creative portfolios, event platforms, music/entertainment, night-mode-first apps
+Accessibility note: always validate luminous accent on dark bg — lilac on #0F0E47 dark passes easily; ensure interactive text ≥4.5:1
+
+WHIMSICAL & PASTEL
+Theory: soft triadic pastels — pink, lavender, cream, with one pop of saturated purple
+Signature hues: blush (#FF8DA1–#FFC2BA), lavender (#C1BFFF–#D3D3FF), orchid (#FF9CE9), cream (#FDFBD4), violet (#AD56C4–#CF6DFC)
+Reference palettes: Hydrangea (#FF8DA1 #FFC2BA #FF9CE9 #AD56C4), Lavender Fields (#FDFBD4 #BDB96A #C1BFFF #CF6DFC), Wisteria Bloom
+Best for: children's platforms, lifestyle/beauty brands, wedding/events, lifestyle apps
+Accessibility note: pastel blush and lavender are BACKGROUND only; always use saturated violet or near-black for text/CTAs
+
+RETRO & NOSTALGIC
+Theory: warm earthy terracotta/sienna base with contrasting cool teal or mauve; vintage muted saturation
+Signature hues: terracotta (#E35336–#CD1C18), sienna (#A0522D), warm sand (#F5F5DC), cognac (#A2574F), muted orange (#E68057), dusty mauve (#BF7587)
+Reference palettes: Burnt Sienna (#E35336 #F5F5DC #F4A460 #A0522D), Desert Dusk (#A2574F #E68057 #BF7587 #993A8B), Chocolate Truffle, Chili Spice
+Best for: travel brands, food/beverage, artisan/craft, lifestyle editorial
+Accessibility note: terracotta on cream ≈ 3.5:1 for large text only; darken primary to #8B3A2A for body text to clear 4.5:1
+
+ROMANTIC & BOTANICAL
+Theory: muted rose/sage/plum split-complementary or analogous; vintage-washed saturation
+Signature hues: dusty rose (#DBAAA7–#E491A6), sage green (#A8DCAB–#90C67F), soft mauve (#845763–#BF7587), plum (#BE91BE), forest green (#519755)
+Reference palettes: Wildflowers (#A8DCAB #519755 #DBAAA7 #BE91BE), Cactus Flower (#E491A6 #845763 #92E4BA #90C67F), Blooming Romance (#660033 #E673AC #469110 #00520A), Pastel Garden, Cherry Blossom, Iris Garden, Lotus Garden, Country Garden
+Best for: wellness, spas, wedding/events, fashion, botanical/beauty brands, lifestyle editorial
+Accessibility note: dusty rose and sage are mid-tone — neither passes 4.5:1 on white for body text; use deep plum (#3d1a2a) or dark forest (#1e3320) for text, pastels for surfaces only
+
+Return EXACTLY this JSON structure (fill in all values based on the brief):
+
+{
+  "meta": {
+    "projectName": "string",
+    "tagline": "string — one evocative sentence for the project",
+    "generatedAt": "string — today's date YYYY-MM-DD",
+    "mood": "string",
+    "industry": "string"
+  },
+  "colors": {
+    "rationale": "string — 2–3 sentences explaining colour choices and theory used",
+    "primitive": {
+      "<family1>": { "50": "#hex", "100": "#hex", "200": "#hex", "300": "#hex", "400": "#hex", "500": "#hex", "600": "#hex", "700": "#hex", "800": "#hex", "900": "#hex" },
+      "<family2>": { "50": "#hex", "100": "#hex", "200": "#hex", "300": "#hex", "400": "#hex", "500": "#hex", "600": "#hex", "700": "#hex", "800": "#hex", "900": "#hex" },
+      "neutral": { "0": "#FFFFFF", "50": "#hex", "100": "#hex", "200": "#hex", "300": "#hex", "400": "#hex", "500": "#hex", "600": "#hex", "700": "#hex", "800": "#hex", "900": "#hex", "1000": "#000000" }
+    },
+    "semantic": {
+      "brand": { "primary": "#hex", "primaryHover": "#hex", "primarySubtle": "#hex", "onPrimary": "#hex" },
+      "accent": { "default": "#hex", "hover": "#hex", "subtle": "#hex", "onAccent": "#hex" },
+      "text": { "primary": "#hex", "secondary": "#hex", "tertiary": "#hex", "disabled": "#hex", "inverse": "#hex", "link": "#hex", "linkHover": "#hex" },
+      "background": { "page": "#hex", "surface": "#hex", "elevated": "#hex", "overlay": "rgba(...)" },
+      "border": { "default": "#hex", "strong": "#hex", "focus": "#hex" },
+      "feedback": { "successBg": "#hex", "successText": "#hex", "warningBg": "#hex", "warningText": "#hex", "errorBg": "#hex", "errorText": "#hex", "infoBg": "#hex", "infoText": "#hex" }
+    },
+    "semanticDark": {
+      "_note": "ONLY include this key when darkMode is 'Both (light and dark)'. Omit entirely for 'Light only' or 'Dark only'.",
+      "brand": { "primary": "#hex", "primaryHover": "#hex", "primarySubtle": "#hex", "onPrimary": "#hex" },
+      "accent": { "default": "#hex", "hover": "#hex", "subtle": "#hex", "onAccent": "#hex" },
+      "text": { "primary": "#hex", "secondary": "#hex", "tertiary": "#hex", "disabled": "#hex", "inverse": "#hex", "link": "#hex", "linkHover": "#hex" },
+      "background": { "page": "#hex", "surface": "#hex", "elevated": "#hex", "overlay": "rgba(...)" },
+      "border": { "default": "#hex", "strong": "#hex", "focus": "#hex" },
+      "feedback": { "successBg": "#hex", "successText": "#hex", "warningBg": "#hex", "warningText": "#hex", "errorBg": "#hex", "errorText": "#hex", "infoBg": "#hex", "infoText": "#hex" }
+    },
+    "contrastChecks": [
+      { "pair": "string", "foreground": "#hex", "background": "#hex", "ratio": "X.X:1", "passAA": true, "passAAA": false }
+    ]
+  },
+  "typography": {
+    "rationale": "string — 2–3 sentences explaining font pairing choices",
+    "fonts": {
+      "heading": { "family": "string", "googleUrl": "string — full CSS API URL", "weights": ["400"], "use": "string" },
+      "body": { "family": "string", "googleUrl": "string — full CSS API URL", "weights": ["400","500","600"], "use": "string" }
+    },
+    "scale": {
+      "base": 16,
+      "note": "All sizes must be round practical values — 12/14/16/18/20/24/30/36/48/60px only. No fractional px like 25px or 31px.",
+      "tokens": {
+        "display":  { "size": "3rem",     "lineHeight": "1.1",  "weight": "700", "font": "heading", "usage": "Hero headlines" },
+        "h1":       { "size": "2.25rem",  "lineHeight": "1.15", "weight": "600", "font": "heading", "usage": "Page titles" },
+        "h2":       { "size": "1.875rem", "lineHeight": "1.2",  "weight": "600", "font": "heading", "usage": "Section headings" },
+        "h3":       { "size": "1.5rem",   "lineHeight": "1.25", "weight": "500", "font": "heading", "usage": "Sub-section headings" },
+        "h4":       { "size": "1.25rem",  "lineHeight": "1.3",  "weight": "500", "font": "body",    "usage": "Card titles, minor headings" },
+        "bodyLg":   { "size": "1.125rem", "lineHeight": "1.7",  "weight": "400", "font": "body",    "usage": "Intro paragraphs, lead text" },
+        "body":     { "size": "1rem",     "lineHeight": "1.6",  "weight": "400", "font": "body",    "usage": "Default body copy" },
+        "bodySm":   { "size": "0.875rem", "lineHeight": "1.5",  "weight": "400", "font": "body",    "usage": "Secondary text, descriptions" },
+        "label":    { "size": "0.875rem", "lineHeight": "1.4",  "weight": "500", "font": "body",    "usage": "Form labels, UI labels" },
+        "caption":  { "size": "0.75rem",  "lineHeight": "1.4",  "weight": "400", "font": "body",    "usage": "Captions, footnotes, helper text" },
+        "overline": { "size": "0.75rem",  "lineHeight": "1.4",  "weight": "600", "font": "body",    "usage": "Category labels, eyebrow text", "transform": "uppercase", "letterSpacing": "0.08em" }
+      }
+    }
+  },
+  "buttons": {
+    "rationale": "string — 2 sentences explaining button design choices",
+    "tokens": {
+      "borderRadius": "6px",
+      "focusRingColor": "#hex",
+      "focusRingWidth": "3px",
+      "focusRingOffset": "2px",
+      "transitionDuration": "150ms",
+      "fontWeight": "500",
+      "fontFamily": "string",
+      "sizes": {
+        "sm": { "height": "32px", "paddingX": "12px", "fontSize": "0.8125rem" },
+        "md": { "height": "40px", "paddingX": "16px", "fontSize": "0.875rem" },
+        "lg": { "height": "48px", "paddingX": "24px", "fontSize": "1rem" }
+      }
+    },
+    "variants": {
+      "filled":   { "description": "string", "states": { "default": { "bg": "#hex", "text": "#hex", "border": "transparent" }, "hover": { "bg": "#hex", "text": "#hex", "border": "transparent" }, "active": { "bg": "#hex", "text": "#hex", "border": "transparent" }, "focus": { "bg": "#hex", "text": "#hex", "border": "transparent", "ring": true }, "disabled": { "bg": "#hex", "text": "#hex", "border": "transparent", "cursor": "not-allowed" }, "loading": { "bg": "#hex", "text": "#hex", "border": "transparent", "showSpinner": true } } },
+      "outlined": { "description": "string", "states": { "default": { "bg": "transparent", "text": "#hex", "border": "#hex" }, "hover": { "bg": "#hex", "text": "#hex", "border": "#hex" }, "active": { "bg": "#hex", "text": "#hex", "border": "#hex" }, "focus": { "bg": "transparent", "text": "#hex", "border": "#hex", "ring": true }, "disabled": { "bg": "transparent", "text": "#hex", "border": "#hex", "cursor": "not-allowed" }, "loading": { "bg": "transparent", "text": "#hex", "border": "#hex", "showSpinner": true } } },
+      "ghost":    { "description": "string", "states": { "default": { "bg": "transparent", "text": "#hex", "border": "transparent" }, "hover": { "bg": "#hex", "text": "#hex", "border": "transparent" }, "active": { "bg": "#hex", "text": "#hex", "border": "transparent" }, "focus": { "bg": "transparent", "text": "#hex", "border": "transparent", "ring": true }, "disabled": { "bg": "transparent", "text": "#hex", "border": "transparent", "cursor": "not-allowed" }, "loading": { "bg": "transparent", "text": "#hex", "border": "transparent", "showSpinner": true } } }
+    }
+  },
+  "tokens": {
+    "spacing": { "1": "4px", "2": "8px", "3": "12px", "4": "16px", "5": "20px", "6": "24px", "8": "32px", "10": "40px", "12": "48px", "16": "64px", "20": "80px", "24": "96px" },
+    "borderRadius": { "none": "0px", "sm": "4px", "md": "6px", "lg": "8px", "xl": "12px", "2xl": "16px", "full": "9999px" },
+    "shadow": {
+      "sm": "0 1px 2px 0 rgba(0,0,0,0.05)",
+      "md": "0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04)",
+      "lg": "0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04)",
+      "xl": "0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.03)"
+    }
+  }
+}`;
+
+// ─────────────────────────────────────────────
+// Utility helpers
+// ─────────────────────────────────────────────
+
+function camelToKebab(str) {
+  return str.replace(/([A-Z])/g, m => '-' + m.toLowerCase());
+}
+
+function hexToRgb(hex) {
+  const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  if (!r) return hex;
+  return `rgb(${parseInt(r[1], 16)}, ${parseInt(r[2], 16)}, ${parseInt(r[3], 16)})`;
+}
+
+function escHtml(str) {
+  if (typeof str !== 'string') return str == null ? '' : String(str);
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+function escAttr(str) {
+  if (typeof str !== 'string') return str == null ? '' : String(str);
+  return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// ─────────────────────────────────────────────
+// API Key persistence
+// ─────────────────────────────────────────────
+
+(function initApiKey() {
+  const envKey = (window.THEMESEED_CONFIG && window.THEMESEED_CONFIG.ANTHROPIC_API_KEY) || '';
+  const saved = localStorage.getItem('themeseed_api_key') || envKey;
+  document.getElementById('api-key').value = saved;
+})();
+
+document.getElementById('toggle-key').addEventListener('click', function() {
+  const inp = document.getElementById('api-key');
+  const icon = document.getElementById('eye-icon');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+  } else {
+    inp.type = 'password';
+    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
+  }
+});
+
+// ─────────────────────────────────────────────
+// Loading state management
+// ─────────────────────────────────────────────
+
+let loadingInterval = null;
+let loadingTimerInterval = null;
+let loadingStep = 0;
+
+function startLoading() {
+  loadingStep = 0;
+  document.getElementById('loading-status').textContent = LOADING_MESSAGES[0];
+  document.getElementById('loading-bar-fill').style.width = '5%';
+  loadingInterval = setInterval(() => {
+    loadingStep = (loadingStep + 1) % LOADING_MESSAGES.length;
+    document.getElementById('loading-status').textContent = LOADING_MESSAGES[loadingStep];
+    const pct = Math.min(90, 5 + loadingStep * (85 / LOADING_MESSAGES.length));
+    document.getElementById('loading-bar-fill').style.width = pct + '%';
+  }, 2800);
+
+  const timerEl = document.getElementById('loading-timer');
+  timerEl.textContent = '0s';
+  const start = Date.now();
+  loadingTimerInterval = setInterval(() => {
+    timerEl.textContent = Math.floor((Date.now() - start) / 1000) + 's';
+  }, 1000);
+}
+
+function stopLoading() {
+  clearInterval(loadingInterval);
+  clearInterval(loadingTimerInterval);
+  loadingInterval = null;
+  loadingTimerInterval = null;
+  document.getElementById('loading-bar-fill').style.width = '100%';
+}
+
+// ─────────────────────────────────────────────
+// Form submission
+// ─────────────────────────────────────────────
+
+document.getElementById('gen-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const apiKey = document.getElementById('api-key').value.trim();
+  const projectName = document.getElementById('project-name').value.trim();
+  const description = document.getElementById('description').value.trim();
+  const industry = document.getElementById('industry').value;
+  const mood = document.getElementById('mood').value;
+  const darkMode = document.getElementById('dark-mode').value;
+
+  const errorBanner = document.getElementById('error-banner');
+  errorBanner.classList.remove('visible');
+  errorBanner.textContent = '';
+
+  // Validation
+  if (!apiKey) { showError('Please enter your Anthropic API key.'); return; }
+  if (!apiKey.startsWith('sk-ant-')) { showError('That doesn\'t look like a valid Anthropic API key (should start with sk-ant-).'); return; }
+  if (!projectName) { showError('Please enter a project name.'); return; }
+  if (!description) { showError('Please describe your website.'); return; }
+
+  // Save form values for prefill on "Generate another"
+  localStorage.setItem('themeseed_last_form', JSON.stringify({
+    projectName, description, industry, mood, darkMode
+  }));
+
+  // Save API key
+  localStorage.setItem('themeseed_api_key', apiKey);
+
+  // Switch to loading state
+  document.getElementById('gen-form').hidden = true;
+  document.getElementById('loading').hidden = false;
+  document.getElementById('result').hidden = true;
+  startLoading();
+
+  const userPrompt = `Project: ${projectName}
+Description: ${description}
+Industry: ${industry}
+Mood: ${mood}
+Dark mode: ${darkMode}
+Today's date: ${new Date().toISOString().split('T')[0]}
+
+Generate a complete, professional, distinctive design system for this project. Make colour choices that genuinely reflect the brief — not generic defaults.`;
+
+  try {
+    const data = await callClaudeAPI(apiKey, userPrompt);
+    stopLoading();
+
+    const html = generateDesignSystemHTML(data);
+
+    // Store for download
+    window._generatedHTML = html;
+    window._generatedFilename = data.meta.projectName.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-design-system.html';
+
+    // Update result UI
+    document.getElementById('preview-url').textContent = window._generatedFilename;
+
+    // Preview in iframe
+    const blob = new Blob([html], { type: 'text/html' });
+    const blobUrl = URL.createObjectURL(blob);
+    document.getElementById('preview-iframe').src = blobUrl;
+
+    document.getElementById('loading').hidden = true;
+    document.getElementById('result').hidden = false;
+    document.querySelector('.gen-tagline').hidden = true;
+
+  } catch (err) {
+    stopLoading();
+    document.getElementById('loading').hidden = true;
+    document.getElementById('gen-form').hidden = false;
+    showError(err.message || 'An unknown error occurred. Please try again.');
+    console.error('[ThemeSeed] Error:', err);
+  }
+});
+
+function showError(msg) {
+  const banner = document.getElementById('error-banner');
+  banner.textContent = msg;
+  banner.classList.add('visible');
+  banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+document.getElementById('btn-regenerate').addEventListener('click', function() {
+  // Restore last form values
+  try {
+    const last = JSON.parse(localStorage.getItem('themeseed_last_form') || '{}');
+    if (last.projectName) document.getElementById('project-name').value = last.projectName;
+    if (last.description) document.getElementById('description').value = last.description;
+    if (last.industry)    document.getElementById('industry').value = last.industry;
+    if (last.mood)        document.getElementById('mood').value = last.mood;
+    if (last.darkMode)    document.getElementById('dark-mode').value = last.darkMode;
+  } catch(e) {}
+
+  document.getElementById('result').hidden = true;
+  document.getElementById('gen-form').hidden = false;
+  document.getElementById('error-banner').classList.remove('visible');
+  document.querySelector('.gen-tagline').hidden = false;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+document.getElementById('btn-download').addEventListener('click', function() {
+  if (!window._generatedHTML) return;
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([window._generatedHTML], { type: 'text/html' }));
+  a.download = window._generatedFilename || 'design-system.html';
+  a.click();
+});
+
+// ─────────────────────────────────────────────
+// Claude API call
+// ─────────────────────────────────────────────
+
+async function callClaudeAPI(apiKey, userPrompt) {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: MODEL,
+      max_tokens: 8192,
+      temperature: 1,
+      system: SYSTEM_PROMPT,
+      messages: [{ role: 'user', content: userPrompt }]
+    })
+  });
+
+  if (!response.ok) {
+    let errMsg = 'API request failed (' + response.status + ')';
+    try {
+      const errData = await response.json();
+      if (errData.error && errData.error.message) errMsg = errData.error.message;
+    } catch {}
+    if (response.status === 401) errMsg = 'Invalid API key. Please check your Anthropic API key.';
+    if (response.status === 429) errMsg = 'Rate limit hit. Please wait a moment and try again.';
+    throw new Error(errMsg);
+  }
+
+  const responseData = await response.json();
+  const rawText = responseData.content[0].text.trim();
+
+  // Strip markdown code fences if present
+  let jsonText = rawText;
+  if (jsonText.startsWith('```')) {
+    jsonText = jsonText.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '');
+  }
+
+  // Strip em dashes from all string values before parsing
+  jsonText = jsonText.replace(/—/g, '-').replace(/–/g, '-');
+
+  let data;
+  try {
+    data = JSON.parse(jsonText);
+  } catch (parseErr) {
+    console.error('[ThemeSeed] Raw API response:', rawText);
+    throw new Error('Could not parse the design system JSON. The raw response has been logged to the console.');
+  }
+
+  // Basic validation
+  if (!data.meta || !data.colors || !data.typography || !data.buttons || !data.tokens) {
+    throw new Error('The generated JSON is missing required sections. Please try again.');
+  }
+
+  return data;
+}
+
+// ─────────────────────────────────────────────
+// Token generators
+// ─────────────────────────────────────────────
+
+function generateCSSVars(data) {
+  const { colors, typography, tokens, buttons } = data;
+  const lines = [':root {'];
+
+  // Primitives
+  lines.push('  /* ── Primitive colors ── */');
+  for (const [family, shades] of Object.entries(colors.primitive || {})) {
+    for (const [stop, hex] of Object.entries(shades)) {
+      lines.push(`  --color-${family}-${stop}: ${hex};`);
+    }
+  }
+  lines.push('');
+
+  // Semantic
+  lines.push('  /* ── Semantic colors ── */');
+  for (const [group, vals] of Object.entries(colors.semantic || {})) {
+    for (const [name, val] of Object.entries(vals)) {
+      lines.push(`  --color-${group}-${camelToKebab(name)}: ${val};`);
+    }
+  }
+  lines.push('');
+
+  // Typography
+  lines.push('  /* ── Typography ── */');
+  lines.push(`  --font-heading: '${typography.fonts.heading.family}', Georgia, serif;`);
+  lines.push(`  --font-body: '${typography.fonts.body.family}', system-ui, sans-serif;`);
+  for (const [token, vals] of Object.entries(typography.scale.tokens || {})) {
+    const k = camelToKebab(token);
+    lines.push(`  --text-${k}-size: ${vals.size};`);
+    lines.push(`  --text-${k}-line-height: ${vals.lineHeight};`);
+    if (vals.transform) lines.push(`  --text-${k}-transform: ${vals.transform};`);
+    if (vals.letterSpacing) lines.push(`  --text-${k}-letter-spacing: ${vals.letterSpacing};`);
+  }
+  lines.push('');
+
+  // Spacing
+  lines.push('  /* ── Spacing ── */');
+  for (const [key, val] of Object.entries(tokens.spacing || {})) {
+    lines.push(`  --space-${key}: ${val};`);
+  }
+  lines.push('');
+
+  // Border radius
+  lines.push('  /* ── Border radius ── */');
+  for (const [key, val] of Object.entries(tokens.borderRadius || {})) {
+    lines.push(`  --radius-${key}: ${val};`);
+  }
+  lines.push('');
+
+  // Shadows
+  lines.push('  /* ── Shadows ── */');
+  for (const [key, val] of Object.entries(tokens.shadow || {})) {
+    lines.push(`  --shadow-${key}: ${val};`);
+  }
+  lines.push('');
+
+  // Button tokens
+  lines.push('  /* ── Button tokens ── */');
+  lines.push(`  --btn-radius: ${buttons.tokens.borderRadius};`);
+  lines.push(`  --btn-focus-ring-color: ${buttons.tokens.focusRingColor};`);
+  lines.push(`  --btn-focus-ring-width: ${buttons.tokens.focusRingWidth};`);
+  lines.push(`  --btn-focus-ring-offset: ${buttons.tokens.focusRingOffset};`);
+  lines.push(`  --btn-transition: ${buttons.tokens.transitionDuration} ease;`);
+  lines.push('');
+
+  // Button state vars (for easy reference)
+  for (const [variant, vdata] of Object.entries(buttons.variants || {})) {
+    for (const [state, sdata] of Object.entries(vdata.states || {})) {
+      const prefix = `--btn-${variant}-${state}`;
+      lines.push(`  ${prefix}-bg: ${sdata.bg};`);
+      lines.push(`  ${prefix}-text: ${sdata.text};`);
+      lines.push(`  ${prefix}-border: ${sdata.border};`);
+    }
+  }
+
+  lines.push('}');
+
+  // Dark mode overrides
+  if (data.colors.semanticDark && !data.colors.semanticDark._note) {
+    lines.push('\n[data-theme="dark"] {');
+    lines.push('  /* ── Dark mode semantic overrides ── */');
+    for (const [group, vals] of Object.entries(data.colors.semanticDark)) {
+      if (group === '_note') continue;
+      for (const [name, val] of Object.entries(vals)) {
+        lines.push(`  --color-${group}-${camelToKebab(name)}: ${val};`);
+      }
+    }
+    lines.push('}');
+  }
+
+  return lines.join('\n');
+}
+
+function generateTailwindConfig(data) {
+  const { colors, typography, tokens } = data;
+  const colorLines = [];
+
+  for (const [group, vals] of Object.entries(colors.semantic || {})) {
+    colorLines.push(`        ${group}: {`);
+    for (const [name, val] of Object.entries(vals)) {
+      colorLines.push(`          '${camelToKebab(name)}': '${val}',`);
+    }
+    colorLines.push(`        },`);
+  }
+
+  const spacingLines = Object.entries(tokens.spacing || {}).map(([k, v]) => `        '${k}': '${v}',`).join('\n');
+  const radiusLines = Object.entries(tokens.borderRadius || {}).map(([k, v]) => `        '${camelToKebab(k)}': '${v}',`).join('\n');
+  const shadowLines = Object.entries(tokens.shadow || {}).map(([k, v]) => `        '${k}': '${v.replace(/'/g, "\\'")}',`).join('\n');
+
+  return `/** @type {import('tailwindcss').Config} */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+${colorLines.join('\n')}
+      },
+      fontFamily: {
+        heading: ['"${typography.fonts.heading.family}"', 'Georgia', 'serif'],
+        body: ['"${typography.fonts.body.family}"', 'system-ui', 'sans-serif'],
+      },
+      spacing: {
+${spacingLines}
+      },
+      borderRadius: {
+${radiusLines}
+      },
+      boxShadow: {
+${shadowLines}
+      },
+    },
+  },
+}`;
+}
+
+function generateTokenJSON(data) {
+  const { colors, typography, tokens } = data;
+  const obj = {
+    '$schema': 'https://design-tokens.org/schemas/1.0.0',
+    'color': {},
+    'typography': {},
+    'spacing': {},
+    'borderRadius': {},
+    'shadow': {}
+  };
+
+  for (const [group, vals] of Object.entries(colors.semantic || {})) {
+    obj.color[group] = {};
+    for (const [name, val] of Object.entries(vals)) {
+      obj.color[group][camelToKebab(name)] = { '$value': val, '$type': 'color' };
+    }
+  }
+
+  obj.typography.heading = { '$value': typography.fonts.heading.family, '$type': 'fontFamily' };
+  obj.typography.body = { '$value': typography.fonts.body.family, '$type': 'fontFamily' };
+  for (const [token, vals] of Object.entries(typography.scale.tokens || {})) {
+    const k = camelToKebab(token);
+    obj.typography[k] = {
+      'size': { '$value': vals.size, '$type': 'dimension' },
+      'lineHeight': { '$value': parseFloat(vals.lineHeight), '$type': 'number' },
+      'fontWeight': { '$value': parseInt(vals.weight), '$type': 'fontWeight' }
+    };
+  }
+
+  for (const [key, val] of Object.entries(tokens.spacing || {})) {
+    obj.spacing[key] = { '$value': val, '$type': 'dimension' };
+  }
+  for (const [key, val] of Object.entries(tokens.borderRadius || {})) {
+    obj.borderRadius[key] = { '$value': val, '$type': 'dimension' };
+  }
+  for (const [key, val] of Object.entries(tokens.shadow || {})) {
+    obj.shadow[key] = { '$value': val, '$type': 'shadow' };
+  }
+
+  return JSON.stringify(obj, null, 2);
+}
+
+// ─────────────────────────────────────────────
+// Main output HTML generator
+// ─────────────────────────────────────────────
+
+function generateDesignSystemHTML(data) {
+  const { meta, colors, typography, buttons, tokens } = data;
+
+  const cssVars = generateCSSVars(data);
+  const tailwindConfig = generateTailwindConfig(data);
+  const tokenJSON = generateTokenJSON(data);
+
+  const headingFont = typography.fonts.heading;
+  const bodyFont = typography.fonts.body;
+
+  // ── Helpers ──
+  const e = escHtml;
+
+  function colorDot(val, size) {
+    const sz = size || 14;
+    return `<span style="display:inline-block;width:${sz}px;height:${sz}px;border-radius:3px;background:${escAttr(val)};border:1px solid rgba(0,0,0,0.08);flex-shrink:0;vertical-align:middle;margin-right:6px;" title="${escAttr(val)}"></span>`;
+  }
+
+  function passIcon(pass) {
+    if (pass) return '<span class="pass">✓ Pass</span>';
+    return '<span class="fail">✗ Fail</span>';
+  }
+
+  // ── Colors section ──
+  function buildPrimitiveSwatches() {
+    const families = Object.entries(colors.primitive || {});
+    let html = '';
+    for (const [family, shades] of families) {
+      const entries = Object.entries(shades);
+      html += `<div class="swatch-family">
+        <div class="swatch-family-name">${e(family.charAt(0).toUpperCase() + family.slice(1))}</div>
+        <div class="swatch-row">`;
+      for (const [stop, hex] of entries) {
+        const rgb = hexToRgb(hex);
+        const isDark = isColorDark(hex);
+        html += `<div class="swatch-item">
+          <div class="swatch-block" style="background:${escAttr(hex)};" title="${e(rgb)}">
+          </div>
+          <div class="swatch-meta">
+            <span class="swatch-stop">${e(stop)}</span>
+            <span class="swatch-hex-val">${e(hex)}</span>
+          </div>
+        </div>`;
+      }
+      html += `</div></div>`;
+    }
+    return html;
+  }
+
+  function buildSemanticTable() {
+    let html = '';
+    for (const [group, vals] of Object.entries(colors.semantic || {})) {
+      html += `<div class="semantic-group">
+        <div class="semantic-group-name">${e(group.charAt(0).toUpperCase() + group.slice(1))}</div>
+        <table class="token-table">
+          <thead><tr><th>Token</th><th>Hex</th><th>RGB</th><th>CSS Variable</th></tr></thead>
+          <tbody>`;
+      for (const [name, val] of Object.entries(vals)) {
+        const cssVar = `--color-${group}-${camelToKebab(name)}`;
+        const rgb = val && val.startsWith('#') ? hexToRgb(val) : val;
+        html += `<tr>
+          <td><code>${e(group)}.${e(name)}</code></td>
+          <td>${colorDot(val)}<code class="mono-val">${e(val)}</code></td>
+          <td><code class="mono-val" style="font-size:0.75rem;color:var(--color-text-tertiary,#888);">${e(rgb)}</code></td>
+          <td><code class="var-name">${e(cssVar)}</code></td>
+        </tr>`;
+      }
+      html += `</tbody></table></div>`;
+    }
+    return html;
+  }
+
+  function buildContrastTable() {
+    const checks = colors.contrastChecks || [];
+    if (!checks.length) return '<p class="muted">No contrast checks provided.</p>';
+    let html = `<table class="token-table contrast-table"><thead><tr>
+      <th>Pair</th><th>Preview</th><th>Ratio</th><th>AA (4.5:1)</th><th>AAA (7:1)</th>
+    </tr></thead><tbody>`;
+    for (const c of checks) {
+      html += `<tr>
+        <td>${e(c.pair)}</td>
+        <td><span class="contrast-preview" style="color:${escAttr(c.foreground)};background:${escAttr(c.background)};">Sample text</span></td>
+        <td><strong>${e(c.ratio)}</strong></td>
+        <td>${passIcon(c.passAA)}</td>
+        <td>${passIcon(c.passAAA)}</td>
+      </tr>`;
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  // ── Typography section ──
+  function buildTypoSpecimens() {
+    let html = '';
+    html += `<div class="font-specimen">
+      <div class="specimen-meta">
+        <span class="specimen-label">Heading Font</span>
+        <span class="specimen-family">${e(headingFont.family)}</span>
+        <span class="specimen-use">${e(headingFont.use)}</span>
+      </div>
+      <div class="specimen-display" style="font-family:'${escAttr(headingFont.family)}',Georgia,serif;font-weight:400;">
+        The quick brown fox jumps over the lazy dog
+      </div>
+      <div class="specimen-weights">`;
+    for (const w of (headingFont.weights || ['400'])) {
+      html += `<span style="font-family:'${escAttr(headingFont.family)}',Georgia,serif;font-weight:${e(w)};font-size:0.875rem;">Weight ${e(w)}: Aa Bb Cc Dd 0123</span>`;
+    }
+    html += `</div></div>`;
+
+    html += `<div class="font-specimen">
+      <div class="specimen-meta">
+        <span class="specimen-label">Body Font</span>
+        <span class="specimen-family">${e(bodyFont.family)}</span>
+        <span class="specimen-use">${e(bodyFont.use)}</span>
+      </div>
+      <div class="specimen-paragraph" style="font-family:'${escAttr(bodyFont.family)}',system-ui,sans-serif;font-weight:400;font-size:1rem;line-height:1.6;">
+        Good design is as little design as possible. Less, but better — because it concentrates on the essential aspects, and the products are not burdened with non-essentials.
+      </div>
+      <div class="specimen-weights">`;
+    for (const w of (bodyFont.weights || ['400'])) {
+      html += `<span style="font-family:'${escAttr(bodyFont.family)}',system-ui,sans-serif;font-weight:${e(w)};font-size:0.875rem;">Weight ${e(w)}: Aa Bb Cc 0123 !?&amp;</span>`;
+    }
+    html += `</div></div>`;
+    return html;
+  }
+
+  function buildTypeScaleTable() {
+    const scale = typography.scale.tokens || {};
+    let html = `<table class="token-table scale-table">
+      <thead><tr><th>Token</th><th>Size</th><th>Line Height</th><th>Weight</th><th>Font</th><th>Example</th></tr></thead>
+      <tbody>`;
+    for (const [token, vals] of Object.entries(scale)) {
+      const fontFamily = vals.font === 'heading'
+        ? `'${escAttr(headingFont.family)}', Georgia, serif`
+        : `'${escAttr(bodyFont.family)}', system-ui, sans-serif`;
+      const extraStyle = [
+        vals.transform ? `text-transform:${vals.transform}` : '',
+        vals.letterSpacing ? `letter-spacing:${vals.letterSpacing}` : ''
+      ].filter(Boolean).join(';');
+      const pxSize = remToPx(vals.size);
+      html += `<tr>
+        <td><code>${e(token)}</code></td>
+        <td><code>${e(vals.size)}${pxSize ? ` <span style="color:var(--color-text-tertiary,#888);font-weight:400;">(${e(pxSize)})</span>` : ''}</code></td>
+        <td><code>${e(vals.lineHeight)}</code></td>
+        <td><code>${e(vals.weight)}</code></td>
+        <td class="muted">${e(vals.font)}</td>
+        <td class="scale-example-cell">
+          <span style="font-family:${fontFamily};font-size:${escAttr(vals.size)};line-height:${escAttr(vals.lineHeight)};font-weight:${escAttr(vals.weight)};${extraStyle};display:block;">
+            ${e(vals.usage || 'Sample text')}
+          </span>
+        </td>
+      </tr>`;
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  // ── Buttons section ──
+  function renderStaticBtn(variant, state) {
+    const vdata = buttons.variants[variant];
+    if (!vdata) return '';
+    const s = vdata.states[state];
+    if (!s) return '';
+    const isDisabled = state === 'disabled';
+    const bt = buttons.tokens;
+    const focusRingStyle = (s.ring)
+      ? `box-shadow:0 0 0 ${bt.focusRingWidth} rgba(0,0,0,0.08),0 0 0 calc(${bt.focusRingWidth} + ${bt.focusRingOffset}) ${escAttr(bt.focusRingColor)};`
+      : '';
+    const style = [
+      `background:${escAttr(s.bg)}`,
+      `color:${escAttr(s.text)}`,
+      `border:1px solid ${escAttr(s.border === 'transparent' ? 'transparent' : s.border)}`,
+      `border-radius:${escAttr(bt.borderRadius)}`,
+      `font-weight:${escAttr(bt.fontWeight)}`,
+      `height:${escAttr(bt.sizes.md.height)}`,
+      `padding:0 ${escAttr(bt.sizes.md.paddingX)}`,
+      `font-size:${escAttr(bt.sizes.md.fontSize)}`,
+      `display:inline-flex`,
+      `align-items:center`,
+      `gap:6px`,
+      `cursor:${isDisabled ? 'not-allowed' : 'default'}`,
+      `opacity:${isDisabled ? '1' : '1'}`,
+      focusRingStyle
+    ].filter(Boolean).join(';');
+
+    const label = state === 'loading' ? '' : (state.charAt(0).toUpperCase() + state.slice(1));
+    const spinner = s.showSpinner ? `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="animation:spin 0.8s linear infinite;flex-shrink:0;"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="30 56"/></svg>` : '';
+
+    return `<button style="${style}" tabindex="-1" ${isDisabled ? 'aria-disabled="true"' : ''} class="static-btn">
+      ${spinner}${label || 'Loading'}
+    </button>`;
+  }
+
+  function buildButtonShowcase() {
+    const acc       = colors.semantic?.accent?.default  || '#f59e0b';
+    const accHover  = colors.semantic?.accent?.hover    || '#d97706';
+    const onAcc     = colors.semantic?.accent?.onAccent || '#ffffff';
+    let html = `<div class="btn-showcase-grid">`;
+    const variants = ['filled', 'outlined', 'ghost'];
+    const variantLabels = { filled: 'Filled', outlined: 'Outlined', ghost: 'Ghost' };
+    const variantDescriptions = {};
+    for (const v of variants) {
+      variantDescriptions[v] = buttons.variants[v]?.description || '';
+    }
+    for (const v of variants) {
+      const bt = buttons.tokens;
+      const style = `background:var(--btn-${v}-default-bg);color:var(--btn-${v}-default-text);border:1px solid var(--btn-${v}-default-border);border-radius:${bt.borderRadius};height:${bt.sizes.md.height};padding:0 ${bt.sizes.md.paddingX};font-size:${bt.sizes.md.fontSize};font-weight:${bt.fontWeight};cursor:pointer;transition:all ${bt.transitionDuration} ease;`;
+      const hoverStyle = `background:var(--btn-${v}-hover-bg);color:var(--btn-${v}-hover-text);border-color:var(--btn-${v}-hover-border);`;
+      html += `<div class="btn-showcase-col">
+        <div class="btn-showcase-label">${e(variantLabels[v])}</div>
+        <button class="live-btn live-btn-${e(v)}" style="${escAttr(style)}" data-hover="${escAttr(hoverStyle)}" data-default="${escAttr(style)}">
+          ${v === 'filled' ? 'Primary Action' : v === 'outlined' ? 'Secondary' : 'Cancel'}
+        </button>
+        <p class="btn-desc">${e(variantDescriptions[v])}</p>
+      </div>`;
+    }
+    // Accent row
+    const bt = buttons.tokens;
+    const accStyle      = `background:var(--color-accent-default);color:var(--color-accent-on-accent);border:1px solid transparent;border-radius:${bt.borderRadius};height:${bt.sizes.md.height};padding:0 ${bt.sizes.md.paddingX};font-size:${bt.sizes.md.fontSize};font-weight:${bt.fontWeight};cursor:pointer;transition:all ${bt.transitionDuration} ease;`;
+    const accOutStyle   = `background:transparent;color:var(--color-accent-default);border:1px solid var(--color-accent-default);border-radius:${bt.borderRadius};height:${bt.sizes.md.height};padding:0 ${bt.sizes.md.paddingX};font-size:${bt.sizes.md.fontSize};font-weight:${bt.fontWeight};cursor:pointer;transition:all ${bt.transitionDuration} ease;`;
+    const accGhostStyle = `background:transparent;color:var(--color-accent-default);border:1px solid transparent;border-radius:${bt.borderRadius};height:${bt.sizes.md.height};padding:0 ${bt.sizes.md.paddingX};font-size:${bt.sizes.md.fontSize};font-weight:${bt.fontWeight};cursor:pointer;transition:all ${bt.transitionDuration} ease;`;
+    html += `</div>
+<div style="margin-top:12px;padding-top:16px;border-top:1px solid var(--color-border-default,#e5e7eb);">
+  <span style="font-size:0.6875rem;font-weight:600;letter-spacing:0.07em;text-transform:uppercase;color:var(--color-text-tertiary,#888);display:block;margin-bottom:12px;">Accent variants</span>
+  <div class="btn-showcase-grid" style="border:none;padding:0;">
+    <div class="btn-showcase-col">
+      <button class="live-btn" style="${escAttr(accStyle)}" data-hover="background:var(--color-accent-hover);" data-default="${escAttr(accStyle)}">Accent Filled</button>
+    </div>
+    <div class="btn-showcase-col">
+      <button class="live-btn" style="${escAttr(accOutStyle)}" data-hover="background:var(--color-accent-subtle);" data-default="${escAttr(accOutStyle)}">Accent Outlined</button>
+    </div>
+    <div class="btn-showcase-col">
+      <button class="live-btn" style="${escAttr(accGhostStyle)}" data-hover="background:var(--color-accent-subtle);" data-default="${escAttr(accGhostStyle)}">Accent Ghost</button>
+    </div>
+  </div>
+</div>`;
+    return html;
+  }
+
+  function buildButtonStateGrid() {
+    const variants = ['filled', 'outlined', 'ghost'];
+    const states = ['default', 'hover', 'active', 'focus', 'disabled', 'loading'];
+    let html = `<table class="token-table state-grid">
+      <thead><tr><th>State</th>${variants.map(v => `<th>${e(v.charAt(0).toUpperCase()+v.slice(1))}</th>`).join('')}</tr></thead>
+      <tbody>`;
+    for (const state of states) {
+      html += `<tr>
+        <td class="state-name-cell"><span class="state-badge">${e(state)}</span></td>`;
+      for (const variant of variants) {
+        html += `<td class="state-btn-cell">${renderStaticBtn(variant, state)}</td>`;
+      }
+      html += `</tr>`;
+    }
+    html += '</tbody></table>';
+    return html;
+  }
+
+  function remToPx(val) {
+    if (!val) return '';
+    const m = String(val).match(/^([\d.]+)rem$/);
+    if (!m) return '';
+    return Math.round(parseFloat(m[1]) * 16) + 'px';
+  }
+
+  function buildButtonSizeGrid() {
+    const bt = buttons.tokens;
+    const sizes = bt.sizes || {};
+    if (!buttons.variants?.filled?.states?.default) return '';
+    let html = `<div class="size-grid">`;
+    for (const [sizeName, sz] of Object.entries(sizes)) {
+      const label = sizeName === 'sm' ? 'Small' : sizeName === 'md' ? 'Medium' : sizeName === 'lg' ? 'Large' : sizeName.toUpperCase();
+      const style = `background:var(--btn-filled-default-bg);color:var(--btn-filled-default-text);border:1px solid transparent;border-radius:${bt.borderRadius};height:${sz.height};padding:0 ${sz.paddingX};font-size:${sz.fontSize};font-weight:${bt.fontWeight};cursor:default;display:inline-flex;align-items:center;white-space:nowrap;`;
+      const pxFont = remToPx(sz.fontSize);
+      html += `<div class="size-item">
+        <button style="${escAttr(style)}" tabindex="-1" class="static-btn">${e(label)}</button>
+        <table class="size-meta-table">
+          <tr><td class="smt-key">Size</td><td class="smt-val"><code>${e(sizeName)}</code></td></tr>
+          <tr><td class="smt-key">Height</td><td class="smt-val"><code>${e(sz.height)}</code></td></tr>
+          <tr><td class="smt-key">Padding</td><td class="smt-val"><code>${e(sz.paddingX)}</code></td></tr>
+          <tr><td class="smt-key">Font</td><td class="smt-val"><code>${e(sz.fontSize)}${pxFont ? ` <span class="px-hint">(${e(pxFont)})</span>` : ''}</code></td></tr>
+        </table>
+      </div>`;
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  // ── Spacing section ──
+  function buildSpacingGrid() {
+    let html = `<div class="spacing-grid">`;
+    for (const [key, val] of Object.entries(tokens.spacing || {})) {
+      html += `<div class="spacing-item">
+        <div class="spacing-meta">
+          <code class="var-name">--space-${e(key)}</code>
+          <code class="mono-val">${e(val)}</code>
+        </div>
+        <div class="spacing-track">
+          <div class="spacing-block" style="width:${escAttr(val)};"></div>
+        </div>
+      </div>`;
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  function buildSummaryStrip() {
+    const sem = colors.semantic || {};
+    const brand = sem.brand || {};
+    const acc = sem.accent || {};
+    const txt = sem.text || {};
+    const bg = sem.background || {};
+    const fb = sem.feedback || {};
+
+    // Key colour swatches: primary, accent, text, background, success
+    const swatches = [
+      brand.primary, acc.default, txt.primary, bg.surface,
+      fb.successText, fb.errorText
+    ].filter(Boolean);
+
+    // Font names
+    const hFont = headingFont.family || 'Heading';
+    const bFont = bodyFont.family || 'Body';
+
+    // Border radius sample
+    const radii = Object.entries(tokens.borderRadius || {}).slice(0, 4);
+
+    // Spacing sample: first 4 values
+    const spacingSample = Object.values(tokens.spacing || {}).slice(0, 5);
+
+    return `<div class="summary-strip">
+  <div class="summary-cell">
+    <span class="summary-cell-label">Colour Palette</span>
+    <div class="summary-swatches">
+      ${swatches.map(c => `<div class="summary-swatch" style="background:${e(c)};" title="${e(c)}"></div>`).join('')}
+    </div>
+    <div style="font-size:0.6875rem;color:var(--color-text-tertiary,#888);">${e(colors.rationale?.split(/[.!]/)[0] || '')}.</div>
+  </div>
+  <div class="summary-cell">
+    <span class="summary-cell-label">Typography</span>
+    <div class="summary-font-name" style="font-family:'${e(hFont)}',Georgia,serif;">${e(hFont)}</div>
+    <div class="summary-font-sub">Headings</div>
+    <div class="summary-font-name" style="font-family:'${e(bFont)}',system-ui,sans-serif;margin-top:4px;">${e(bFont)}</div>
+    <div class="summary-font-sub">Body</div>
+  </div>
+  <div class="summary-cell">
+    <span class="summary-cell-label">Border Radius</span>
+    <div class="summary-radius-demo">
+      ${radii.map(([k, v]) => `<div class="summary-radius-block" style="width:20px;height:20px;border-radius:${e(v)};" title="${e(k)}: ${e(v)}"></div>`).join('')}
+    </div>
+    <div style="font-size:0.6875rem;color:var(--color-text-tertiary,#888);">Base: ${e(tokens.borderRadius?.md || '6px')}</div>
+  </div>
+  <div class="summary-cell">
+    <span class="summary-cell-label">Spacing Scale</span>
+    <div class="summary-swatches" style="align-items:flex-end;gap:3px;">
+      ${spacingSample.map(v => `<div style="width:${e(v)};height:${e(v)};max-width:28px;max-height:28px;background:var(--color-brand-primary,#6366f1);opacity:0.6;border-radius:2px;" title="${e(v)}"></div>`).join('')}
+    </div>
+    <div style="font-size:0.6875rem;color:var(--color-text-tertiary,#888);">Base 4px scale · ${Object.keys(tokens.spacing || {}).length} steps</div>
+  </div>
+  <div class="summary-cell">
+    <span class="summary-cell-label">Tokens</span>
+    <div class="summary-font-name" style="font-size:1.5rem;line-height:1;">${Object.keys(sem).reduce((n, k) => n + Object.keys(sem[k] || {}).length, 0) + Object.keys(tokens.spacing || {}).length + Object.keys(tokens.borderRadius || {}).length}</div>
+    <div class="summary-font-sub">design tokens</div>
+    <div class="summary-token-row" style="margin-top:4px;">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      WCAG 2.1 AA
+    </div>
+    <div class="summary-token-row">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      ${e(meta.mood)}
+    </div>
+  </div>
+</div>`;
+  }
+
+  function buildRadiusGrid() {
+    let html = `<div class="radius-grid">`;
+    for (const [key, val] of Object.entries(tokens.borderRadius || {})) {
+      html += `<div class="radius-item">
+        <div class="radius-block" style="border-radius:${escAttr(val)};"></div>
+        <div class="radius-meta">
+          <code class="var-name">--radius-${e(camelToKebab(key))}</code>
+          <code class="mono-val">${e(val)}</code>
+        </div>
+      </div>`;
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  function buildShadowGrid() {
+    let html = `<div class="shadow-grid">`;
+    for (const [key, val] of Object.entries(tokens.shadow || {})) {
+      html += `<div class="shadow-item">
+        <div class="shadow-block" style="box-shadow:${escAttr(val)};"></div>
+        <div class="shadow-meta">
+          <code class="var-name">--shadow-${e(key)}</code>
+          <code class="mono-val small">${e(val)}</code>
+        </div>
+      </div>`;
+    }
+    html += `</div>`;
+    return html;
+  }
+
+  // ── Example cards section ──
+  function buildExampleCards() {
+    const p        = colors.semantic?.brand?.primary        || '#6366f1';
+    const pHover   = colors.semantic?.brand?.primaryHover   || '#4f46e5';
+    const pSubtle  = colors.semantic?.brand?.primarySubtle  || '#eef2ff';
+    const onP      = colors.semantic?.brand?.onPrimary      || '#ffffff';
+    const acc      = colors.semantic?.accent?.default       || '#f59e0b';
+    const accHover = colors.semantic?.accent?.hover         || '#d97706';
+    const accSubtle= colors.semantic?.accent?.subtle        || '#fffbeb';
+    const onAcc    = colors.semantic?.accent?.onAccent      || '#ffffff';
+    // For text ON accSubtle background, use the dark accent (not onAccent which is for filled buttons)
+    const accTextOnSubtle = isColorDark(accSubtle) ? '#ffffff' : acc;
+    const bgPage   = colors.semantic?.background?.page      || '#ffffff';
+    const bgSurface= colors.semantic?.background?.surface   || '#f9fafb';
+    const borderDefault = colors.semantic?.border?.default  || '#e5e7eb';
+    const textPrimary   = colors.semantic?.text?.primary    || '#111111';
+    const textSecondary = colors.semantic?.text?.secondary  || '#555555';
+    const textTertiary  = colors.semantic?.text?.tertiary   || '#888888';
+    const successBg   = colors.semantic?.feedback?.successBg   || '#f0fdf4';
+    const successText = colors.semantic?.feedback?.successText || '#15803d';
+    const btnRadius     = buttons.tokens?.borderRadius      || '6px';
+    const btnFontWeight = buttons.tokens?.fontWeight        || '500';
+    const btnTransition = buttons.tokens?.transitionDuration|| '150ms';
+    const bodyFam  = `'${bodyFont.family}', system-ui, sans-serif`;
+    const headFam  = `'${headingFont.family}', Georgia, serif`;
+    const shadow   = tokens.shadow?.md || '0 4px 6px -1px rgba(0,0,0,0.07)';
+    const shadowLg = tokens.shadow?.lg || '0 10px 15px -3px rgba(0,0,0,0.08)';
+    const r  = tokens.borderRadius;
+    const sp = tokens.spacing;
+
+    return `
+<style>
+  .example-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: ${sp?.['6'] || '24px'}; margin-bottom: ${sp?.['8'] || '32px'}; }
+
+  .ex-card {
+    background: var(--color-background-page);
+    border: 1px solid var(--color-border-default);
+    border-radius: ${r?.lg || '8px'};
+    overflow: hidden;
+    box-shadow: ${shadow};
+    font-family: ${bodyFam};
+    transition: box-shadow ${btnTransition} ease, transform ${btnTransition} ease;
+  }
+  .ex-card:hover { box-shadow: ${shadowLg}; transform: translateY(-2px); }
+
+  .ex-card-img {
+    height: 140px;
+    background: linear-gradient(135deg, var(--color-brand-primary-subtle) 0%, var(--color-accent-subtle) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .ex-card-img-pattern {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, var(--color-brand-primary-subtle) 0%, transparent 55%), radial-gradient(circle at 80% 20%, var(--color-accent-subtle) 0%, transparent 50%);
+    opacity: 0.8;
+  }
+  .ex-card-img-icon {
+    width: 48px; height: 48px;
+    background: var(--color-brand-primary);
+    color: var(--color-brand-on-primary);
+    border-radius: ${r?.xl || '12px'};
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+  }
+
+  .ex-card-body { padding: ${sp?.['5'] || '20px'} ${sp?.['5'] || '20px'} ${sp?.['4'] || '16px'}; }
+
+  .ex-card-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-brand-primary);
+    margin-bottom: ${sp?.['2'] || '8px'};
+    display: block;
+  }
+
+  .ex-card-title {
+    font-family: ${headFam};
+    font-size: 1.125rem;
+    line-height: 1.3;
+    font-weight: 400;
+    color: var(--color-text-primary);
+    margin-bottom: ${sp?.['2'] || '8px'};
+  }
+
+  .ex-card-body-text {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin-bottom: ${sp?.['4'] || '16px'};
+  }
+
+  .ex-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: ${sp?.['3'] || '12px'} ${sp?.['5'] || '20px'};
+    border-top: 1px solid var(--color-border-default);
+    background: var(--color-background-surface);
+  }
+
+  .ex-card-meta {
+    font-size: 0.75rem;
+    color: var(--color-text-tertiary);
+    display: flex;
+    align-items: center;
+    gap: ${sp?.['2'] || '8px'};
+  }
+
+  .ex-avatar {
+    width: 24px; height: 24px;
+    border-radius: 9999px;
+    background: var(--color-brand-primary);
+    color: var(--color-brand-on-primary);
+    font-size: 0.625rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .ex-btn {
+    font-family: ${bodyFam};
+    font-size: 0.8125rem;
+    font-weight: ${btnFontWeight};
+    color: var(--color-brand-on-primary);
+    background: var(--color-brand-primary);
+    border: none;
+    border-radius: ${btnRadius};
+    height: 32px;
+    padding: 0 ${sp?.['3'] || '12px'};
+    cursor: pointer;
+    transition: background ${btnTransition} ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .ex-btn:hover { background: var(--color-brand-primary-hover); }
+  .ex-btn:focus-visible { outline: 3px solid var(--color-brand-primary); outline-offset: 2px; }
+
+  .ex-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--color-feedback-success-bg);
+    color: var(--color-feedback-success-text);
+    border-radius: 9999px;
+    padding: 2px 8px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+  }
+
+  .ex-badge-accent {
+    background: var(--color-accent-subtle);
+    color: var(--color-accent-default);
+  }
+
+  /* Stat card */
+  .ex-stat-card {
+    background: var(--color-background-page);
+    border: 1px solid var(--color-border-default);
+    border-radius: ${r?.lg || '8px'};
+    padding: ${sp?.['5'] || '20px'} ${sp?.['6'] || '24px'};
+    box-shadow: ${shadow};
+    font-family: ${bodyFam};
+    display: flex;
+    flex-direction: column;
+    gap: ${sp?.['2'] || '8px'};
+    position: relative;
+    overflow: hidden;
+  }
+  .ex-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .ex-stat-card.stat-primary::before { background: var(--color-brand-primary); }
+  .ex-stat-card.stat-accent::before  { background: var(--color-accent-default); }
+
+  .ex-stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .ex-stat-value {
+    font-family: ${headFam};
+    font-size: 2rem;
+    line-height: 1;
+    font-weight: 400;
+    color: var(--color-text-primary);
+  }
+
+  .ex-stat-value.val-accent { color: var(--color-accent-default); }
+  .ex-stat-value.val-primary { color: var(--color-brand-primary); }
+
+  .ex-stat-change {
+    font-size: 0.8125rem;
+    color: var(--color-feedback-success-text);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Alert */
+  .ex-alert {
+    background: var(--color-brand-primary-subtle);
+    border: 1px solid var(--color-border-default);
+    border-left: 3px solid var(--color-brand-primary);
+    border-radius: ${r?.md || '6px'};
+    padding: ${sp?.['4'] || '16px'};
+    font-family: ${bodyFam};
+    display: flex;
+    gap: ${sp?.['3'] || '12px'};
+    align-items: flex-start;
+  }
+  .ex-alert-icon { color: var(--color-brand-primary); flex-shrink: 0; margin-top: 1px; }
+  .ex-alert-title { font-size: 0.875rem; font-weight: 600; color: var(--color-text-primary); margin-bottom: 3px; }
+  .ex-alert-body { font-size: 0.8125rem; color: var(--color-text-secondary); line-height: 1.5; }
+
+  /* Profile card header strip */
+  .ex-profile-header {
+    height: 90px;
+    background: linear-gradient(135deg, var(--color-accent-default) 0%, var(--color-accent-hover) 100%);
+    position: relative;
+  }
+  .ex-profile-header::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at 70% 40%, var(--color-brand-primary-subtle) 0%, transparent 60%);
+    opacity: 0.5;
+  }
+  .ex-profile-avatar {
+    position: absolute;
+    top: -30px; left: 20px;
+    width: 58px; height: 58px;
+    border-radius: 9999px;
+    background: var(--color-accent-default);
+    border: 3px solid var(--color-background-page);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.25);
+    color: var(--color-accent-on-accent);
+  }
+  .ex-profile-btn {
+    font-family: ${bodyFam};
+    font-size: 0.8125rem;
+    font-weight: ${btnFontWeight};
+    color: var(--color-accent-on-accent);
+    background: var(--color-accent-default);
+    border: none;
+    border-radius: ${btnRadius};
+    height: 32px;
+    padding: 0 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: background ${btnTransition} ease;
+  }
+  .ex-profile-btn:hover { background: var(--color-accent-hover); }
+</style>
+
+<div class="example-grid">
+  <!-- Card 1: Content card -->
+  <div class="ex-card">
+    <div class="ex-card-img">
+      <div class="ex-card-img-pattern"></div>
+      <div class="ex-card-img-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+      </div>
+    </div>
+    <div class="ex-card-body">
+      <span class="ex-card-label">${e(meta.industry)}</span>
+      <div class="ex-card-title">Getting started with ${e(meta.projectName)}</div>
+      <p class="ex-card-body-text">Everything you need to build consistent, accessible interfaces using the ${e(meta.projectName)} design system.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <span class="ex-badge">✓ Published</span>
+        <span class="ex-badge ex-badge-accent">${e(meta.mood)}</span>
+      </div>
+    </div>
+    <div class="ex-card-footer">
+      <div class="ex-card-meta">
+        <span class="ex-avatar">DS</span>
+        Design System
+      </div>
+      <button class="ex-btn">
+        Read more
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Card 2: Stat cards -->
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <div class="ex-stat-card stat-primary">
+      <div class="ex-stat-label">Total Tokens</div>
+      <div class="ex-stat-value val-primary">128</div>
+      <div class="ex-stat-change">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        +12 from last version
+      </div>
+    </div>
+    <div class="ex-stat-card stat-accent">
+      <div class="ex-stat-label">Colour Pairs</div>
+      <div class="ex-stat-value val-accent">${(colors.contrastChecks || []).length}</div>
+      <div class="ex-stat-change">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+        All pass WCAG AA
+      </div>
+    </div>
+  </div>
+
+  <!-- Card 3: Profile card -->
+  <div class="ex-card" style="overflow:hidden;">
+    <div class="ex-profile-header"></div>
+    <div class="ex-card-body" style="position:relative;padding-top:38px;">
+      <div class="ex-profile-avatar">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </div>
+      <div class="ex-card-title" style="font-size:1rem;margin-bottom:2px;">${e(meta.projectName)} Team</div>
+      <p class="ex-card-body-text" style="margin-bottom:14px;font-size:0.8125rem;">${e(meta.industry)} contributors</p>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;">
+        <span class="ex-badge">Active</span>
+        <span class="ex-badge ex-badge-accent">${e(meta.mood)}</span>
+      </div>
+    </div>
+    <div class="ex-card-footer">
+      <div class="ex-card-meta">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        3 members
+      </div>
+      <button class="ex-profile-btn">
+        View team
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </button>
+    </div>
+  </div>
+</div>`;
+  }
+
+  // ── Export section ──
+  function codeBlock(id, content) {
+    return `<div class="code-wrap" id="wrap-${id}">
+      <button class="copy-btn" data-target="${id}">Copy</button>
+      <pre class="code-block" id="${id}"><code>${escHtml(content)}</code></pre>
+    </div>`;
+  }
+
+  // ── Full page assembly ──
+  const hasDark = !!(colors.semanticDark && !colors.semanticDark._note);
+  const defaultTheme = meta.darkMode === 'Dark only' ? ' data-theme="dark"' : '';
+
+  return `<!DOCTYPE html>
+<html lang="en"${defaultTheme}>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${e(meta.projectName)} — Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="${escAttr(headingFont.googleUrl)}" rel="stylesheet">
+  <link href="${escAttr(bodyFont.googleUrl)}" rel="stylesheet">
+  <style>
+    ${cssVars}
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body, system-ui, sans-serif);
+      background: var(--color-background-page, #ffffff);
+      color: var(--color-text-primary, #111111);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      border-right: 1px solid var(--color-border-default, #e5e7eb);
+      background: var(--color-background-page, #ffffff);
+      display: flex;
+      flex-direction: column;
+      padding: 0 0 32px;
+    }
+
+    .sidebar-logo {
+      padding: 28px 20px 20px;
+      border-bottom: 1px solid var(--color-border-default, #e5e7eb);
+      margin-bottom: 12px;
+    }
+
+    .sidebar-logo-name {
+      font-family: var(--font-heading, Georgia, serif);
+      font-size: 1.0625rem;
+      font-weight: 400;
+      line-height: 1.2;
+      color: var(--color-text-primary, #111);
+    }
+
+    .sidebar-logo-sub {
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary, #888);
+      margin-top: 4px;
+    }
+
+    .sidebar-nav { padding: 0 8px; }
+
+    .nav-section { margin-bottom: 4px; }
+
+    .nav-section-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary, #888);
+      padding: 10px 12px 6px;
+      display: block;
+    }
+
+    .nav-item {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 400;
+      color: var(--color-text-secondary, #444);
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 6px;
+      transition: background 120ms, color 120ms;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .nav-item:hover {
+      background: var(--color-background-surface, #f9fafb);
+      color: var(--color-text-primary, #111);
+    }
+
+    .nav-item.active {
+      background: var(--color-brand-primary-subtle, #eef2ff);
+      color: var(--color-brand-primary, #6366f1);
+      font-weight: 500;
+    }
+
+    .sidebar-theme-toggle {
+      padding: 0 16px 12px;
+    }
+    .sidebar-theme-toggle button {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      width: 100%;
+      padding: 7px 12px;
+      background: var(--color-background-surface);
+      border: 1px solid var(--color-border-default);
+      border-radius: 8px;
+      color: var(--color-text-secondary);
+      font-size: 0.8125rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .sidebar-theme-toggle button:hover {
+      background: var(--color-background-elevated);
+      color: var(--color-text-primary);
+    }
+
+    .sidebar-meta {
+      margin-top: auto;
+      padding: 16px 20px 0;
+      border-top: 1px solid var(--color-border-default, #e5e7eb);
+      font-size: 0.6875rem;
+      color: var(--color-text-tertiary, #999);
+      line-height: 1.5;
+    }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
+      overflow-y: auto;
+      min-width: 0;
+    }
+
+    .content {
+      max-width: 860px;
+      padding: 48px 64px 96px;
+    }
+
+    /* ── Doc header ── */
+    .doc-header { margin-bottom: 40px; padding-bottom: 40px; border-bottom: 1px solid var(--color-border-default, #e5e7eb); }
+
+    /* ── At-a-glance summary strip ── */
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--color-border-default, #e5e7eb);
+      border: 1px solid var(--color-border-default, #e5e7eb);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 64px;
+    }
+    .summary-cell {
+      background: var(--color-background-surface, #f9fafb);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+    .summary-cell-label {
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary, #888);
+    }
+    .summary-swatches {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .summary-swatch {
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      border: 1px solid rgba(0,0,0,0.08);
+      flex-shrink: 0;
+    }
+    .summary-font-name {
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-text-primary, #111);
+      line-height: 1.3;
+    }
+    .summary-font-sub {
+      font-size: 0.6875rem;
+      color: var(--color-text-tertiary, #888);
+    }
+    .summary-token-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--color-text-secondary, #555);
+    }
+    .summary-radius-demo {
+      display: flex;
+      gap: 4px;
+      align-items: flex-end;
+    }
+    .summary-radius-block {
+      background: var(--color-brand-primary, #6366f1);
+      opacity: 0.7;
+    }
+
+    .doc-tags { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+
+    .doc-tag {
+      display: inline-flex;
+      align-items: center;
+      background: var(--color-brand-primary-subtle);
+      color: var(--color-text-primary);
+      border-radius: 99px;
+      padding: 3px 10px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .doc-title {
+      font-family: var(--font-heading, Georgia, serif);
+      font-size: var(--text-h1-size, 2.441rem);
+      line-height: var(--text-h1-line-height, 1.15);
+      font-weight: 400;
+      color: var(--color-text-primary, #111);
+      margin-bottom: 12px;
+    }
+
+    .doc-tagline {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: var(--color-text-secondary, #555);
+      max-width: 560px;
+    }
+
+    .doc-meta {
+      margin-top: 20px;
+      display: flex;
+      gap: 20px;
+      font-size: 0.8125rem;
+      color: var(--color-text-tertiary, #888);
+      flex-wrap: wrap;
+    }
+
+    .doc-meta-item { display: flex; align-items: center; gap: 6px; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 80px; scroll-margin-top: 32px; }
+
+    .section-header { margin-bottom: 8px; }
+
+    .section-number {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-brand-primary, #6366f1);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .section-title {
+      font-family: var(--font-heading, Georgia, serif);
+      font-size: var(--text-h2-size, 1.953rem);
+      line-height: var(--text-h2-line-height, 1.2);
+      font-weight: 400;
+      color: var(--color-text-primary, #111);
+    }
+
+    .section-divider {
+      height: 1px;
+      background: var(--color-border-default, #e5e7eb);
+      margin: 24px 0 40px;
+    }
+
+    /* ── Subsections ── */
+    .subsection { margin-bottom: 48px; scroll-margin-top: 32px; }
+
+    .subsection-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-text-primary, #111);
+      margin-bottom: 6px;
+    }
+
+    .rationale {
+      font-size: 0.9375rem;
+      line-height: 1.65;
+      color: var(--color-text-secondary, #555);
+      max-width: 640px;
+      margin-bottom: 28px;
+    }
+
+    .muted { color: var(--color-text-tertiary, #888); }
+
+    /* ── Tables ── */
+    .token-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8125rem;
+      margin-bottom: 0;
+    }
+
+    .token-table th {
+      text-align: left;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary, #888);
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--color-border-default, #e5e7eb);
+      white-space: nowrap;
+    }
+
+    .token-table td {
+      padding: 9px 12px;
+      border-bottom: 1px solid var(--color-border-default, #e5e7eb);
+      vertical-align: middle;
+    }
+
+    .token-table tr:last-child td { border-bottom: none; }
+
+    .token-table tr:hover td { background: var(--color-background-surface, #fafafa); }
+
+    code {
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.8125em;
+    }
+
+    .mono-val { color: var(--color-text-secondary, #555); }
+    .var-name { color: var(--color-brand-primary, #6366f1); }
+
+    /* ── Color swatches ── */
+    .swatch-family { margin-bottom: 28px; }
+
+    .swatch-family-name {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--color-text-secondary, #555);
+      margin-bottom: 10px;
+    }
+
+    .swatch-row {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .swatch-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .swatch-block {
+      width: 64px;
+      height: 48px;
+      border-radius: 6px;
+      border: 1px solid rgba(0,0,0,0.07);
+      cursor: default;
+      flex-shrink: 0;
+    }
+
+    .swatch-meta {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      align-items: center;
+    }
+
+    .swatch-stop {
+      font-size: 0.625rem;
+      font-weight: 600;
+      color: var(--color-text-tertiary, #888);
+      font-family: monospace;
+    }
+
+    .swatch-hex-val {
+      font-size: 0.5625rem;
+      font-family: monospace;
+      color: var(--color-text-tertiary, #999);
+      font-weight: 400;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Semantic groups ── */
+    .semantic-group { margin-bottom: 28px; }
+
+    .semantic-group-name {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary, #888);
+      margin-bottom: 8px;
+    }
+
+    /* ── Contrast table ── */
+    .contrast-preview {
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      display: inline-block;
+      border: 1px solid rgba(0,0,0,0.07);
+    }
+
+    .pass { color: #15803d; font-weight: 600; font-size: 0.8125rem; }
+    .fail { color: #b91c1c; font-weight: 500; font-size: 0.8125rem; }
+
+    /* ── Font specimens ── */
+    .font-specimen {
+      border: 1px solid var(--color-border-default, #e5e7eb);
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 20px;
+      background: var(--color-background-surface, #fafafa);
+    }
+
+    .specimen-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .specimen-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--color-text-tertiary, #888);
+    }
+
+    .specimen-family {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--color-text-primary, #111);
+    }
+
+    .specimen-use {
+      font-size: 0.8125rem;
+      color: var(--color-text-tertiary, #888);
+    }
+
+    .specimen-display {
+      font-size: 2rem;
+      line-height: 1.2;
+      color: var(--color-text-primary, #111);
+      margin-bottom: 16px;
+    }
+
+    .specimen-paragraph {
+      line-height: 1.65;
+      color: var(--color-text-secondary, #555);
+      margin-bottom: 16px;
+    }
+
+    .specimen-weights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .specimen-weights span {
+      color: var(--color-text-secondary, #555);
+    }
+
+    /* ── Type scale ── */
+    .scale-table .scale-example-cell { max-width: 240px; overflow: hidden; }
+
+    /* ── Buttons showcase ── */
+    .btn-showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .btn-showcase-col { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .btn-showcase-label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-tertiary, #888); }
+    .btn-desc { font-size: 0.8125rem; color: var(--color-text-tertiary, #888); line-height: 1.5; }
+
+    .live-btn {
+      font-family: var(--font-body, system-ui, sans-serif);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      transition: all var(--btn-transition, 150ms ease);
+    }
+
+    .live-btn:focus-visible {
+      outline: var(--btn-focus-ring-width, 3px) solid var(--btn-focus-ring-color, currentColor);
+      outline-offset: var(--btn-focus-ring-offset, 2px);
+    }
+
+    /* ── State grid ── */
+    .state-grid .state-name-cell { white-space: nowrap; width: 80px; }
+
+    .state-badge {
+      display: inline-block;
+      background: var(--color-background-surface, #f3f4f6);
+      border: 1px solid var(--color-border-default, #e5e7eb);
+      border-radius: 4px;
+      padding: 2px 7px;
+      font-size: 0.75rem;
+      font-family: monospace;
+      color: var(--color-text-secondary, #555);
+    }
+
+    .state-btn-cell { padding: 10px 12px; }
+
+    .static-btn {
+      font-family: var(--font-body, system-ui, sans-serif);
+      pointer-events: none;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Size grid ── */
+    .size-grid { display: flex; align-items: flex-start; gap: 32px; flex-wrap: wrap; }
+
+    .size-item { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+
+    .size-meta-table { border-collapse: collapse; font-size: 0.75rem; }
+    .size-meta-table .smt-key { color: var(--color-text-tertiary, #888); padding-right: 10px; white-space: nowrap; padding-bottom: 2px; }
+    .size-meta-table .smt-val code { font-size: 0.75rem; color: var(--color-text-primary, #111); background: none; padding: 0; }
+    .px-hint { color: var(--color-text-tertiary, #888); font-weight: 400; }
+
+    /* ── Spacing ── */
+    .spacing-grid { display: flex; flex-direction: column; gap: 10px; }
+
+    .spacing-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .spacing-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      width: 180px;
+    }
+
+    .spacing-track {
+      flex: 1;
+      display: flex;
+      align-items: center;
+    }
+
+    .spacing-block {
+      height: 20px;
+      background: var(--color-brand-primary-subtle, #eef2ff);
+      border: 1px solid var(--color-brand-primary, #6366f1);
+      border-radius: 3px;
+      min-width: 4px;
+    }
+
+    /* ── Radius ── */
+    .radius-grid { display: flex; flex-wrap: wrap; gap: 24px; }
+
+    .radius-item { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+
+    .radius-block {
+      width: 56px;
+      height: 56px;
+      background: var(--color-brand-primary-subtle, #eef2ff);
+      border: 2px solid var(--color-brand-primary, #6366f1);
+    }
+
+    .radius-meta { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+
+    /* ── Shadow ── */
+    .shadow-grid { display: flex; flex-wrap: wrap; gap: 32px; }
+
+    .shadow-item { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
+    .shadow-block {
+      width: 72px;
+      height: 56px;
+      border-radius: 8px;
+      background: var(--color-background-elevated, #ffffff);
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .shadow-meta { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .shadow-meta .small { font-size: 0.625rem; max-width: 120px; word-break: break-all; }
+
+    /* ── Export tabs ── */
+    .tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--color-border-default, #e5e7eb); margin-bottom: 16px; }
+
+    .tab-btn {
+      font-family: var(--font-body, system-ui, sans-serif);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--color-text-tertiary, #888);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 8px 14px;
+      cursor: pointer;
+      transition: color 120ms;
+      margin-bottom: -1px;
+    }
+
+    .tab-btn:hover { color: var(--color-text-primary, #111); }
+
+    .tab-btn.active {
+      color: var(--color-brand-primary, #6366f1);
+      border-bottom-color: var(--color-brand-primary, #6366f1);
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .code-wrap { position: relative; }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-family: var(--font-body, system-ui, sans-serif);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #94a3b8;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+      transition: background 120ms, color 120ms;
+      z-index: 1;
+    }
+
+    .copy-btn:hover { color: #e2e8f0; background: rgba(255,255,255,0.14); }
+    .copy-btn.copied { color: #4ade80; }
+
+    .code-block {
+      background: #1a1b26;
+      color: #a9b1d6;
+      border-radius: 10px;
+      padding: 20px 20px 20px 24px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 0.8rem;
+      line-height: 1.65;
+      overflow-x: auto;
+      max-height: 480px;
+      overflow-y: auto;
+      white-space: pre;
+      margin: 0;
+    }
+
+    .code-block code { font-family: inherit; font-size: inherit; color: inherit; background: none; }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .content { padding: 32px 24px 80px; }
+      .btn-showcase-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Sidebar ── -->
+<aside class="sidebar" aria-label="Navigation">
+  <div class="sidebar-logo">
+    <div class="sidebar-logo-name">${e(meta.projectName)}</div>
+    <div class="sidebar-logo-sub">Design System</div>
+  </div>
+  ${hasDark ? `<div class="sidebar-theme-toggle">
+    <button id="theme-toggle" onclick="(function(){var h=document.documentElement;var d=h.getAttribute('data-theme')==='dark';h.setAttribute('data-theme',d?'light':'dark');var lbl=document.getElementById('theme-toggle').querySelector('.toggle-label');lbl.textContent=d?'Dark mode':'Light mode';})()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      <span class="toggle-label">${meta.darkMode === 'Dark only' ? 'Light mode' : 'Dark mode'}</span>
+    </button>
+  </div>` : ''}
+  <nav class="sidebar-nav" aria-label="Design system sections">
+    <div class="nav-section">
+      <span class="nav-section-label">Overview</span>
+      <a href="#overview" class="nav-item active">Introduction</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Foundations</span>
+      <a href="#colors" class="nav-item">Colours</a>
+      <a href="#colors-primitive" class="nav-item" style="padding-left:20px;">↳ Primitive Palette</a>
+      <a href="#colors-semantic" class="nav-item" style="padding-left:20px;">↳ Semantic Tokens</a>
+      <a href="#colors-contrast" class="nav-item" style="padding-left:20px;">↳ Contrast Checks</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">&nbsp;</span>
+      <a href="#typography" class="nav-item">Typography</a>
+      <a href="#typography-specimens" class="nav-item" style="padding-left:20px;">↳ Font Specimens</a>
+      <a href="#typography-scale" class="nav-item" style="padding-left:20px;">↳ Type Scale</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Components</span>
+      <a href="#buttons" class="nav-item">Buttons</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Tokens</span>
+      <a href="#spacing" class="nav-item">Spacing & Radius</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">Examples</span>
+      <a href="#components" class="nav-item">Example Component</a>
+    </div>
+    <div class="nav-section">
+      <span class="nav-section-label">&nbsp;</span>
+      <a href="#export" class="nav-item">Export Tokens</a>
+    </div>
+  </nav>
+  <div class="sidebar-meta">
+    Generated ${e(meta.generatedAt)}<br>
+    by ThemeSeed
+  </div>
+</aside>
+
+<!-- ── Main ── -->
+<main class="main" id="main">
+  <div class="content">
+
+    <!-- ── Doc header ── -->
+    <header class="doc-header" id="overview">
+      <div class="doc-tags">
+        <span class="doc-tag">${e(meta.industry)}</span>
+        <span class="doc-tag">${e(meta.mood)}</span>
+      </div>
+      <h1 class="doc-title">${e(meta.projectName)}</h1>
+      <p class="doc-tagline">${e(meta.tagline)}</p>
+      <div class="doc-meta">
+        <span class="doc-meta-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Generated ${e(meta.generatedAt)}
+        </span>
+        <span class="doc-meta-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          WCAG 2.1 AA compliant
+        </span>
+        <span class="doc-meta-item">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          ${e(headingFont.family)} + ${e(bodyFont.family)}
+        </span>
+      </div>
+    </header>
+
+    ${buildSummaryStrip()}
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- SECTION 1: COLOURS                         -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="colors">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">Colours</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p class="rationale">${e(colors.rationale)}</p>
+
+      <!-- Primitive Palette -->
+      <div class="subsection" id="colors-primitive">
+        <h3 class="subsection-title">Primitive Palette</h3>
+        <p class="rationale" style="font-size:0.875rem;margin-bottom:20px;">The raw colour scale. These are the building blocks — use semantic tokens in your product, not these directly.</p>
+        ${buildPrimitiveSwatches()}
+      </div>
+
+      <!-- Semantic Tokens -->
+      <div class="subsection" id="colors-semantic">
+        <h3 class="subsection-title">Semantic Tokens</h3>
+        <p class="rationale" style="font-size:0.875rem;margin-bottom:20px;">Purposeful names that describe how a colour is used, not what it looks like. Reference these in your components.</p>
+        ${buildSemanticTable()}
+      </div>
+
+      <!-- Contrast Checks -->
+      <div class="subsection" id="colors-contrast">
+        <h3 class="subsection-title">Contrast Checks</h3>
+        <p class="rationale" style="font-size:0.875rem;margin-bottom:20px;">Key colour pairings verified against WCAG 2.1. AA requires 4.5:1 for normal text, 3:1 for large text. AAA requires 7:1.</p>
+        ${buildContrastTable()}
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- SECTION 2: TYPOGRAPHY                      -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="typography">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Typography</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p class="rationale">${e(typography.rationale)}</p>
+
+      <!-- Font Specimens -->
+      <div class="subsection" id="typography-specimens">
+        <h3 class="subsection-title">Font Specimens</h3>
+        ${buildTypoSpecimens()}
+      </div>
+
+      <!-- Type Scale -->
+      <div class="subsection" id="typography-scale">
+        <h3 class="subsection-title">Type Scale</h3>
+        <p class="rationale" style="font-size:0.875rem;margin-bottom:20px;">Practical scale based on ${e(String(typography.scale.base || 16))}px base. Sizes drawn from Tailwind, Material Design, and IBM Carbon reference scales.</p>
+        ${buildTypeScaleTable()}
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- SECTION 3: BUTTONS                         -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="buttons">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Buttons</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p class="rationale">${e(buttons.rationale)}</p>
+
+      <!-- Live Showcase -->
+      <div class="subsection">
+        <h3 class="subsection-title">Variants</h3>
+        ${buildButtonShowcase()}
+      </div>
+
+      <!-- Size Reference -->
+      <div class="subsection">
+        <h3 class="subsection-title">Sizes</h3>
+        ${buildButtonSizeGrid()}
+      </div>
+
+      <!-- State Grid -->
+      <div class="subsection">
+        <h3 class="subsection-title">State Reference</h3>
+        <p class="rationale" style="font-size:0.875rem;margin-bottom:20px;">All states defined for every variant. This grid is a static reference — hover the live buttons above to see actual transitions.</p>
+        ${buildButtonStateGrid()}
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- SECTION 4: SPACING & RADIUS                -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="spacing">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Spacing &amp; Radius</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <!-- Spacing -->
+      <div class="subsection">
+        <h3 class="subsection-title">Spacing Scale</h3>
+        <p class="rationale" style="font-size:0.875rem;margin-bottom:20px;">Base-4 spacing system. Use these tokens consistently — never arbitrary pixel values.</p>
+        ${buildSpacingGrid()}
+      </div>
+
+      <!-- Border Radius -->
+      <div class="subsection" style="margin-top:40px;">
+        <h3 class="subsection-title">Border Radius</h3>
+        ${buildRadiusGrid()}
+      </div>
+
+      <!-- Shadows -->
+      <div class="subsection" style="margin-top:40px;">
+        <h3 class="subsection-title">Shadows</h3>
+        ${buildShadowGrid()}
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- SECTION 5: EXAMPLE COMPONENT               -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="components">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <h2 class="section-title">Example Component</h2>
+      </div>
+      <div class="section-divider"></div>
+      <p class="rationale">A real card component built exclusively with the design tokens above — no raw values. This is what using the system looks like in practice.</p>
+
+      ${buildExampleCards()}
+    </section>
+
+    <!-- ══════════════════════════════════════════ -->
+    <!-- SECTION 6: EXPORT                          -->
+    <!-- ══════════════════════════════════════════ -->
+    <section class="section" id="export">
+      <div class="section-header">
+        <span class="section-number">06</span>
+        <h2 class="section-title">Export Tokens</h2>
+      </div>
+      <div class="section-divider"></div>
+
+      <p class="rationale">Copy the format that fits your stack. All formats contain the complete token set.</p>
+
+      <div class="tabs" role="tablist">
+        <button class="tab-btn active" role="tab" aria-selected="true" aria-controls="panel-css" id="tab-css">CSS Variables</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-tailwind" id="tab-tailwind">Tailwind Config</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-json" id="tab-json">Token JSON (W3C)</button>
+      </div>
+
+      <div class="tab-panel active" id="panel-css" role="tabpanel" aria-labelledby="tab-css">
+        ${codeBlock('code-css', cssVars)}
+      </div>
+
+      <div class="tab-panel" id="panel-tailwind" role="tabpanel" aria-labelledby="tab-tailwind">
+        ${codeBlock('code-tailwind', tailwindConfig)}
+      </div>
+
+      <div class="tab-panel" id="panel-json" role="tabpanel" aria-labelledby="tab-json">
+        ${codeBlock('code-json', tokenJSON)}
+      </div>
+
+    </section>
+
+  </div><!-- /content -->
+</main>
+
+<script>
+(function() {
+  'use strict';
+
+  // ── Tab switching ──
+  document.querySelectorAll('.tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var panelId = btn.getAttribute('aria-controls');
+      document.querySelectorAll('.tab-btn').forEach(function(b) {
+        b.classList.remove('active');
+        b.setAttribute('aria-selected', 'false');
+      });
+      document.querySelectorAll('.tab-panel').forEach(function(p) {
+        p.classList.remove('active');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected', 'true');
+      document.getElementById(panelId).classList.add('active');
+    });
+  });
+
+  // ── Copy buttons ──
+  document.querySelectorAll('.copy-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var targetId = btn.getAttribute('data-target');
+      var el = document.getElementById(targetId);
+      var text = el ? el.textContent : '';
+      navigator.clipboard.writeText(text).then(function() {
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      }).catch(function() {
+        // Fallback
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  });
+
+  // ── Live button hover states ──
+  document.querySelectorAll('.live-btn').forEach(function(btn) {
+    var defaultStyle = btn.getAttribute('data-default') || '';
+    var hoverStyle = btn.getAttribute('data-hover') || '';
+
+    function applyStyle(styleStr) {
+      if (!styleStr) return;
+      styleStr.split(';').forEach(function(rule) {
+        rule = rule.trim();
+        if (!rule) return;
+        var idx = rule.indexOf(':');
+        if (idx < 0) return;
+        var prop = rule.slice(0, idx).trim();
+        var val = rule.slice(idx + 1).trim();
+        if (prop && val) btn.style.setProperty(prop, val);
+      });
+    }
+
+    btn.addEventListener('mouseenter', function() { applyStyle(hoverStyle); });
+    btn.addEventListener('mouseleave', function() { applyStyle(defaultStyle); });
+  });
+
+  // ── Nav click → smooth scroll inside .main ──
+  var mainEl = document.getElementById('main');
+  var navLinks = document.querySelectorAll('.nav-item');
+
+  navLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      var href = link.getAttribute('href');
+      if (!href || !href.startsWith('#')) return;
+      e.preventDefault();
+      var target = document.getElementById(href.slice(1));
+      if (!target) return;
+      var offset = target.getBoundingClientRect().top - mainEl.getBoundingClientRect().top + mainEl.scrollTop - 24;
+      mainEl.scrollTo({ top: offset, behavior: 'smooth' });
+    });
+  });
+
+  // ── Active nav highlight on scroll ──
+  var sections = document.querySelectorAll('section.section, header.doc-header');
+
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        var id = entry.target.id;
+        navLinks.forEach(function(link) {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { root: mainEl, rootMargin: '-20% 0px -60% 0px' });
+
+  sections.forEach(function(s) { if (s.id) observer.observe(s); });
+
+})();
+<\/script>
+
+</body>
+</html>`;
+}
+
+// ─────────────────────────────────────────────
+// Colour utility
+// ─────────────────────────────────────────────
+
+function isColorDark(hex) {
+  if (!hex || !hex.startsWith('#')) return false;
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  if (isNaN(r) || isNaN(g) || isNaN(b)) return false;
+  // Perceived luminance
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance < 0.5;
+}
+
+</script>
+</body>
+</html>
