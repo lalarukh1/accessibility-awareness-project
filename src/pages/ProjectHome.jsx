@@ -30,7 +30,7 @@ const experiments = [
     title: 'ThemeSeed',
     tag: 'Accessible Design',
     description:
-      'Describe your project and get back a complete, WCAG 2.1 AA compliant design system — colour palettes with verified contrast ratios, typography scale, spacing, and component tokens. Designed so accessibility is built in from the first token, not bolted on at the end.',
+      'Describe your project and get back a complete, WCAG 2.1 AA compliant design system: colour palettes with verified contrast ratios, typography scale, spacing, and component tokens. Designed for built-in accessibility.',
     cta: 'Explore',
     external: true,
   },
