@@ -183,37 +183,6 @@
       cursor: pointer;
     }
 
-    .api-key-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .api-key-row input { flex: 1; font-family: monospace; font-size: 0.8125rem; }
-
-    .api-key-toggle {
-      background: none;
-      border: 1px solid var(--gen-border);
-      border-radius: 6px;
-      padding: 9px 10px;
-      cursor: pointer;
-      color: var(--gen-text-muted);
-      display: flex;
-      align-items: center;
-      flex-shrink: 0;
-      transition: border-color 150ms, color 150ms;
-    }
-
-    .api-key-toggle:hover { border-color: var(--gen-text-muted); color: var(--gen-text); }
-
-    .api-key-hint {
-      font-size: 0.75rem;
-      color: var(--gen-text-muted);
-      margin-top: 4px;
-    }
-
-    .api-key-hint a { color: var(--gen-brand); text-decoration: none; }
-    .api-key-hint a:hover { text-decoration: underline; }
 
     /* ─── Submit button ─── */
     .form-footer {
@@ -459,22 +428,6 @@
 
     <div class="form-card">
 
-      <!-- API Key -->
-      <div class="form-section">
-        <div class="form-section-title">API Configuration</div>
-        <div class="form-group">
-          <label for="api-key">Anthropic API Key <span class="required">*</span></label>
-          <div class="api-key-row">
-            <input type="password" id="api-key" name="apiKey" placeholder="sk-ant-..." autocomplete="off" required>
-            <button type="button" class="api-key-toggle" id="toggle-key" title="Show/hide key" aria-label="Toggle key visibility">
-              <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            </button>
-          </div>
-          <p class="api-key-hint">Your key is never sent anywhere except directly to Anthropic. <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Get your key →</a></p>
-        </div>
-      </div>
-
-      <div class="form-divider"></div>
 
       <!-- Project Info -->
       <div class="form-section">
@@ -893,28 +846,6 @@ function escAttr(str) {
 }
 
 // ─────────────────────────────────────────────
-// API Key persistence
-// ─────────────────────────────────────────────
-
-(function initApiKey() {
-  const envKey = (window.THEMESEED_CONFIG && window.THEMESEED_CONFIG.ANTHROPIC_API_KEY) || '';
-  const saved = localStorage.getItem('themeseed_api_key') || envKey;
-  document.getElementById('api-key').value = saved;
-})();
-
-document.getElementById('toggle-key').addEventListener('click', function() {
-  const inp = document.getElementById('api-key');
-  const icon = document.getElementById('eye-icon');
-  if (inp.type === 'password') {
-    inp.type = 'text';
-    icon.innerHTML = '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
-  } else {
-    inp.type = 'password';
-    icon.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>';
-  }
-});
-
-// ─────────────────────────────────────────────
 // Loading state management
 // ─────────────────────────────────────────────
 
@@ -956,7 +887,7 @@ function stopLoading() {
 document.getElementById('gen-form').addEventListener('submit', async function(e) {
   e.preventDefault();
 
-  const apiKey = document.getElementById('api-key').value.trim();
+  const apiKey = (window.THEMESEED_CONFIG && window.THEMESEED_CONFIG.ANTHROPIC_API_KEY) || '';
   const projectName = document.getElementById('project-name').value.trim();
   const description = document.getElementById('description').value.trim();
   const industry = document.getElementById('industry').value;
@@ -968,8 +899,7 @@ document.getElementById('gen-form').addEventListener('submit', async function(e)
   errorBanner.textContent = '';
 
   // Validation
-  if (!apiKey) { showError('Please enter your Anthropic API key.'); return; }
-  if (!apiKey.startsWith('sk-ant-')) { showError('That doesn\'t look like a valid Anthropic API key (should start with sk-ant-).'); return; }
+  if (!apiKey) { showError('API key not configured. Please contact the site owner.'); return; }
   if (!projectName) { showError('Please enter a project name.'); return; }
   if (!description) { showError('Please describe your website.'); return; }
 
@@ -977,9 +907,6 @@ document.getElementById('gen-form').addEventListener('submit', async function(e)
   localStorage.setItem('themeseed_last_form', JSON.stringify({
     projectName, description, industry, mood, darkMode
   }));
-
-  // Save API key
-  localStorage.setItem('themeseed_api_key', apiKey);
 
   // Switch to loading state
   document.getElementById('gen-form').hidden = true;
