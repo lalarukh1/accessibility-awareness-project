@@ -67,6 +67,24 @@ Powered by Claude's vision API. Runs entirely in the browser.
 
 ---
 
+### 4 — ThemeSeed `Accessible Design`
+
+A design system generator that bakes accessibility in from the very first token. Describe your project in plain English and get back a complete, downloadable design system — colour palettes, typography scale, spacing, and component tokens — all verified against WCAG 2.1 AA contrast ratios before anything is handed to you.
+
+The point: most design systems get built first, then audited for accessibility later. ThemeSeed flips that. Claude generates the palette, calculates real luminance contrast ratios, and adjusts colours until they pass — so the output is compliant by construction, not by retrofit.
+
+**What gets generated:**
+- Primitive and semantic colour tokens with contrast check results
+- Typography scale with specimen previews
+- Spacing and border-radius scales
+- Button states and size grid
+- Tailwind config and JSON token export
+- Full downloadable HTML design system document
+
+Powered by Claude. Runs entirely in the browser.
+
+---
+
 ## Resource Library
 
 A curated set of videos, talks, and first-hand accounts. Real people showing what it means to navigate the web with a disability — not simulated, not hypothetical.
